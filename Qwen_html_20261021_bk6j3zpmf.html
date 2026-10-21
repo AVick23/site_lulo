@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S0 · Язык и рамки — проектный менеджмент через реальные провалы</title>
+<meta name="description" content="Семь блоков, двенадцать историй: WhatsApp, Healthcare.gov, NHS, Knight Capital, Boeing 737 MAX, Lidl, Spotify. Язык и рамки проектного менеджмента.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --ink:#07080b; --ink2:#0b0d12; --panel:#12141b; --panel2:#171a22; --deep:#040507;
+  --paper:#f5f5f7; --white:#fff;
+  --txt:#f1f1f4; --dim:#9a9ea9;
+  --line:rgba(255,255,255,.11); --line2:rgba(255,255,255,.055);
+  --blue:#2997ff; --red:#ff453a; --amber:#ff9f0a; --green:#30d158; --violet:#7d7aff;
+  --fd:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --fb:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --fm:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --maxw:1280px;
+  --trk:rgba(255,255,255,.15);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ink);color:var(--txt);
+  font-family:var(--fb);font-size:17px;line-height:1.62;letter-spacing:.002em;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button,input,select{font:inherit;color:inherit}
+::selection{background:var(--blue);color:#04050a}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+.wrap{width:min(var(--maxw),91vw);margin-inline:auto}
+.sec{position:relative;padding:clamp(84px,11vw,158px) 0;scroll-margin-top:74px}
+.sec--paper{background:var(--paper);color:#0b0c10;--txt:#0b0c10;--dim:#5c616d;--line:rgba(0,0,0,.11);--line2:rgba(0,0,0,.06);--trk:rgba(0,0,0,.14);--panel:#fff;--panel2:#fbfbfc}
+.sec--ink2{background:var(--ink2)}
+.sec--deep{background:var(--deep)}
+.grain{position:fixed;inset:0;z-index:999;pointer-events:none;opacity:.04;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ============ TYPE ============ */
+h1,h2,h3,h4{font-family:var(--fd);font-weight:800;letter-spacing:-.038em;line-height:1.02;margin:0}
+.h-xl{font-size:clamp(3.6rem,13vw,10.5rem);line-height:.86;letter-spacing:-.055em}
+.h-lg{font-size:clamp(2.1rem,5.4vw,4.35rem);line-height:1.0}
+.h-md{font-size:clamp(1.5rem,2.6vw,2.3rem);line-height:1.08}
+.h-sm{font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.16;letter-spacing:-.02em}
+.eyebrow{font-family:var(--fm);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin:0 0 18px}
+.lede{font-size:clamp(1.05rem,1.55vw,1.32rem);line-height:1.55;color:var(--dim);max-width:66ch;font-weight:400}
+.mono{font-family:var(--fm);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+p{margin:0 0 1.05em}
+strong{font-weight:600;color:var(--txt)}
+.t-blue{color:var(--blue)}.t-red{color:var(--red)}.t-amber{color:var(--amber)}.t-green{color:var(--green)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .85s var(--ease),transform .85s var(--ease);transition-delay:var(--d,0ms)}
+.rv.in{opacity:1;transform:none}
+.ln{display:block;overflow:hidden}
+.ln>i{display:block;font-style:normal;transform:translateY(112%);transition:transform 1.05s var(--ease);transition-delay:var(--d,0ms)}
+.rv.in .ln>i{transform:none}
+
+/* ============ NAV ============ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:900;background:rgba(8,9,13,.62);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px);border-bottom:1px solid rgba(255,255,255,.09)}
+.nav-in{width:min(var(--maxw),94vw);margin-inline:auto;height:52px;display:flex;align-items:center;gap:26px}
+.brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;font-family:var(--fd);font-weight:800;letter-spacing:-.03em;font-size:15px;color:#fff}
+.brand-mark{font-family:var(--fm);font-size:11px;letter-spacing:.14em;background:var(--blue);color:#04050a;padding:3px 7px;border-radius:6px;font-weight:600}
+.nav-links{display:flex;gap:2px;margin-left:auto;overflow:hidden}
+.nav-links a{font-size:13px;color:rgba(255,255,255,.62);text-decoration:none;padding:6px 11px;border-radius:999px;white-space:nowrap;transition:color .25s,background .25s}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+.nav-links a.on{color:#fff;background:rgba(255,255,255,.13)}
+.nav-meta{font-family:var(--fm);font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.1em;min-width:44px;text-align:right}
+.nav-prog{position:absolute;bottom:-1px;left:0;height:2px;width:100%;background:transparent}
+.nav-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--violet),var(--blue));box-shadow:0 0 12px rgba(41,151,255,.7)}
+@media(max-width:900px){.nav-links{display:none}.nav-meta{margin-left:auto}}
+
+/* chapter rail */
+.rail{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:880;display:flex;flex-direction:column;gap:13px}
+.rail a{position:relative;width:26px;height:12px;display:grid;place-items:center;text-decoration:none}
+.rail a span{display:block;width:16px;height:2px;background:rgba(255,255,255,.25);border-radius:2px;transition:all .35s var(--ease)}
+.rail a.on span{width:26px;background:var(--blue);box-shadow:0 0 10px rgba(41,151,255,.8)}
+.rail a::after{content:attr(data-t);position:absolute;right:36px;top:50%;transform:translate(6px,-50%);white-space:nowrap;
+  font-family:var(--fm);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(15,17,23,.9);
+  border:1px solid var(--line);padding:5px 9px;border-radius:7px;opacity:0;pointer-events:none;transition:all .3s var(--ease)}
+.rail a:hover::after{opacity:1;transform:translate(0,-50%)}
+@media(max-width:1180px){.rail{display:none}}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:120px;overflow:hidden;background:radial-gradient(120% 80% at 8% -10%,#131a2a 0%,var(--ink) 55%)}
+.hero-grid{position:absolute;inset:-15% -15% 0;z-index:0;
+  background-image:linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:92px 92px;
+  -webkit-mask-image:radial-gradient(115% 95% at 18% 4%,#000 18%,transparent 74%);mask-image:radial-gradient(115% 95% at 18% 4%,#000 18%,transparent 74%);
+  animation:drift 26s linear infinite}
+@keyframes drift{to{background-position:92px 92px,92px 92px}}
+.frame{position:absolute;border:1px solid rgba(41,151,255,.22);z-index:0;pointer-events:none}
+.frame::before,.frame::after{content:'';position:absolute;width:9px;height:9px;border:1px solid var(--blue);opacity:.75}
+.frame::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
+.frame::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+.f1{width:38vw;height:34vh;right:6vw;top:16vh;animation:float1 17s ease-in-out infinite}
+.f2{width:22vw;height:44vh;right:26vw;top:31vh;border-color:rgba(125,122,255,.2);animation:float2 21s ease-in-out infinite}
+.f3{width:14vw;height:15vh;right:11vw;bottom:26vh;border-color:rgba(255,69,58,.22);animation:float1 14s ease-in-out infinite reverse}
+@keyframes float1{50%{transform:translate3d(-14px,20px,0)}}
+@keyframes float2{50%{transform:translate3d(18px,-16px,0)}}
+.spot{position:absolute;width:620px;height:620px;left:var(--mx,30%);top:var(--my,25%);transform:translate(-50%,-50%);z-index:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(41,151,255,.15),transparent 62%);filter:blur(6px)}
+.hero-in{position:relative;z-index:2;padding-bottom:clamp(34px,5vh,64px)}
+.hero-h1{margin:6px 0 26px}
+.hero-h1 .ln:nth-child(2)>i{color:#fff;-webkit-text-stroke:0}
+.hero-h1 em{font-style:normal;color:var(--dim);-webkit-text-stroke:1.2px rgba(255,255,255,.42)}
+@media(max-width:700px){.hero-h1 em{-webkit-text-stroke:0;color:rgba(255,255,255,.35)}}
+.hero-lede{max-width:56ch;font-size:clamp(1rem,1.45vw,1.24rem);color:#c8ccd4}
+.hero-lede b{color:#fff;font-weight:600}
+.stats{list-style:none;margin:44px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.stats li{background:rgba(10,12,17,.72);padding:18px 20px 16px}
+.stats .v{font-family:var(--fd);font-weight:800;font-size:clamp(1.5rem,2.7vw,2.5rem);letter-spacing:-.04em;line-height:1;display:flex;align-items:baseline;gap:3px}
+.stats .v small{font-size:.5em;font-weight:700;color:var(--dim)}
+.stats .k{font-family:var(--fm);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-top:9px}
+@media(max-width:820px){.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.stats{grid-template-columns:1fr}}
+
+.mq{position:relative;z-index:2;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(6,7,10,.6);overflow:hidden;padding:13px 0}
+.mq-track{display:flex;width:max-content;animation:mqs 46s linear infinite}
+.mq:hover .mq-track{animation-play-state:paused}
+@keyframes mqs{to{transform:translateX(-50%)}}
+.mq-row{display:flex;gap:10px;padding-right:10px}
+.mq-item{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 17px 8px 13px;white-space:nowrap;text-decoration:none;font-size:13.5px;transition:all .3s var(--ease)}
+.mq-item:hover{background:rgba(41,151,255,.14);border-color:rgba(41,151,255,.5);transform:translateY(-2px)}
+.mq-item b{font-family:var(--fd);font-weight:700;letter-spacing:-.01em}
+.mq-item s{text-decoration:none;font-family:var(--fm);font-size:11px;letter-spacing:.08em;color:var(--red)}
+.mq-item i{font-style:normal;font-family:var(--fm);font-size:10.5px;color:var(--dim);letter-spacing:.1em}
+.scrollcue{position:absolute;left:50%;bottom:96px;transform:translateX(-50%);z-index:3;font-family:var(--fm);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.4);display:flex;flex-direction:column;align-items:center;gap:9px}
+.scrollcue span{width:1px;height:38px;background:linear-gradient(180deg,transparent,var(--blue));animation:cue 2.2s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.25;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
+@media(max-width:900px){.scrollcue{display:none}}
+
+/* ============ MAP ============ */
+.map-row{display:grid;grid-template-columns:64px minmax(0,1.05fr) minmax(0,1.15fr) minmax(0,1.25fr) 34px;gap:22px;align-items:center;
+  padding:26px 18px 26px 8px;border-top:1px solid var(--line);text-decoration:none;position:relative;transition:background .35s var(--ease),padding .35s var(--ease)}
+.map-row:last-child{border-bottom:1px solid var(--line)}
+.map-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--blue);transform:scaleY(0);transform-origin:top;transition:transform .45s var(--ease)}
+.map-row:hover{background:rgba(255,255,255,.035);padding-left:22px}
+.map-row:hover::before{transform:scaleY(1)}
+.map-num{font-family:var(--fm);font-size:12px;letter-spacing:.1em;color:var(--dim)}
+.map-t{font-family:var(--fd);font-weight:700;font-size:clamp(1.05rem,1.6vw,1.42rem);letter-spacing:-.025em;line-height:1.14}
+.map-s{font-size:14.5px;color:var(--txt);opacity:.9}
+.map-w{font-size:14px;color:var(--dim)}
+.map-arrow{justify-self:end;opacity:0;transform:translateX(-8px);transition:all .35s var(--ease);color:var(--blue);font-size:19px}
+.map-row:hover .map-arrow{opacity:1;transform:none}
+@media(max-width:880px){
+  .map-row{grid-template-columns:44px 1fr;gap:6px 14px;padding:20px 12px}
+  .map-s,.map-w,.map-arrow{grid-column:2}
+  .map-w{color:var(--dim)}
+}
+.head-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(38px,5vw,64px)}
+@media(max-width:880px){.head-split{grid-template-columns:1fr}}
+
+/* ============ CHAPTER HEAD ============ */
+.ch-head{display:flex;gap:clamp(18px,3vw,44px);align-items:flex-start;padding-bottom:26px;border-bottom:1px solid var(--line);margin-bottom:clamp(38px,5vw,66px)}
+.ch-num{font-family:var(--fd);font-weight:800;font-size:clamp(2.6rem,6vw,5.4rem);line-height:.8;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.4px var(--line);}
+.ch-head .eyebrow{margin-bottom:12px}
+.ch-sub{margin:14px 0 0;color:var(--dim);font-size:clamp(1rem,1.4vw,1.22rem);max-width:52ch}
+
+/* ============ STICKY TWO-COL ============ */
+.cols{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);gap:clamp(30px,5vw,84px);align-items:start}
+@media(max-width:960px){.cols{grid-template-columns:1fr}}
+.sticky{position:sticky;top:96px}
+@media(max-width:960px){.sticky{position:relative;top:0}}
+
+/* mode switcher */
+.modes{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012));overflow:hidden}
+.modes-top{display:flex;border-bottom:1px solid var(--line);position:relative}
+.modes-top button{flex:1;background:none;border:0;padding:15px 8px;font-family:var(--fm);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;transition:color .3s;position:relative;z-index:2}
+.modes-top button.on{color:#fff}
+.modes-ind{position:absolute;bottom:0;left:0;height:2px;width:33.33%;background:var(--blue);transition:transform .5s var(--ease);box-shadow:0 0 12px rgba(41,151,255,.8)}
+.mode-body{padding:26px 24px 24px;min-height:290px}
+.mode-pane{display:none;animation:fade .5s var(--ease)}
+.mode-pane.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.mode-pane h4{font-size:clamp(1.4rem,2.4vw,2rem);margin-bottom:10px}
+.mode-pane .def{font-size:15.5px;color:var(--dim);margin-bottom:20px}
+.mode-bar{display:flex;gap:5px;margin:18px 0 10px}
+.mode-bar i{flex:1;height:6px;border-radius:3px;background:var(--trk);transition:background .5s}
+.mode-bar i.f{background:var(--blue)}
+.mode-bar i.f2{background:var(--violet)}
+.mode-bar i.f3{background:var(--green)}
+.mode-years{display:flex;justify-content:space-between;font-family:var(--fm);font-size:10.5px;letter-spacing:.1em;color:var(--dim)}
+.mode-note{border-left:2px solid var(--blue);padding-left:14px;font-size:14.5px;color:#c8ccd4;margin-top:20px}
+.sec--paper .mode-note{color:#3d424e}
+.sec--paper .modes{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.06)}
+.sec--paper .mode-pane .def{color:#5c616d}
+
+/* narrative steps */
+.step{padding:clamp(28px,4vw,44px) 0;border-bottom:1px dashed var(--line)}
+.step:last-child{border-bottom:0}
+.step h3{font-size:clamp(1.3rem,2.1vw,1.75rem);margin-bottom:14px;letter-spacing:-.03em}
+.step p{color:#c4c8d0;font-size:16.5px}
+.sec--paper .step p{color:#3d424e}
+.tagline{display:inline-flex;align-items:center;gap:8px;font-family:var(--fm);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.tagline::before{content:'';width:22px;height:1px;background:var(--blue)}
+
+/* quote */
+.quote{margin:clamp(40px,6vw,74px) 0;padding:clamp(30px,4vw,52px);border:1px solid var(--line);border-radius:24px;position:relative;overflow:hidden;background:linear-gradient(120deg,rgba(41,151,255,.09),transparent 62%)}
+.quote::after{content:'';position:absolute;right:-40px;top:-60px;width:220px;height:220px;border:1px solid rgba(41,151,255,.2);border-radius:50%}
+.quote p{font-family:var(--fd);font-weight:800;font-size:clamp(1.45rem,3.2vw,2.7rem);line-height:1.08;letter-spacing:-.04em;margin:0;max-width:22ch}
+.quote .who{font-family:var(--fm);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-top:20px}
+
+/* practice card */
+.prac{border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:16px;padding:26px 26px 20px;background:rgba(255,255,255,.03);margin-top:34px}
+.sec--paper .prac{background:#fff}
+.prac ol{margin:14px 0 0;padding-left:0;list-style:none;counter-reset:p}
+.prac ol li{counter-increment:p;padding:11px 0 11px 40px;border-top:1px solid var(--line2);position:relative;font-size:15.5px}
+.prac ol li:first-child{border-top:0}
+.prac ol li::before{content:counter(p,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--fm);font-size:11px;color:var(--blue);letter-spacing:.08em}
+.prac .fine{font-size:14px;color:var(--dim);margin-top:16px}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.chip{font-family:var(--fm);font-size:11px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:7px 13px;color:var(--dim);background:rgba(255,255,255,.02)}
+.chip.b{color:var(--blue);border-color:rgba(41,151,255,.4);background:rgba(41,151,255,.09)}
+.chip.r{color:var(--red);border-color:rgba(255,69,58,.4);background:rgba(255,69,58,.09)}
+.chip.g{color:var(--green);border-color:rgba(48,209,88,.35);background:rgba(48,209,88,.08)}
+.chip.a{color:var(--amber);border-color:rgba(255,159,10,.35);background:rgba(255,159,10,.08)}
+
+/* dossier */
+.dossier{border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden;margin-top:26px;transition:transform .5s var(--ease),border-color .4s,box-shadow .5s}
+.sec--paper .dossier{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.dossier:hover{border-color:rgba(41,151,255,.35);box-shadow:0 22px 60px rgba(0,0,0,.34)}
+.ds-head{padding:22px 24px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.ds-tag{font-family:var(--fm);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim)}
+.ds-head h3{font-size:clamp(1.2rem,2vw,1.6rem)}
+.ds-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:0;background:var(--line2)}
+.ds-meta>div{background:var(--panel);padding:15px 16px}
+.sec--paper .ds-meta>div{background:#fff}
+.ds-meta dt{font-family:var(--fm);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.ds-meta dd{margin:0;font-family:var(--fd);font-weight:700;font-size:15px;letter-spacing:-.01em;line-height:1.2}
+.ds-body{padding:22px 24px 6px}
+.ds-body ul{margin:0 0 16px;padding-left:19px}
+.ds-body li{margin-bottom:9px;font-size:15.5px;color:#c4c8d0}
+.sec--paper .ds-body li{color:#3d424e}
+.ds-body li b{color:var(--txt)}
+.ds-lesson{margin:0;padding:17px 24px 21px;border-top:1px solid var(--line);background:rgba(41,151,255,.055);font-size:15.5px}
+.ds-lesson span{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:7px}
+@media(max-width:720px){.ds-meta{grid-template-columns:repeat(2,1fr)}}
+
+/* ============ LAB (controls) ============ */
+.lab{border:1px solid var(--line);border-radius:26px;background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.012));padding:clamp(22px,3vw,34px)}
+.sec--paper .lab{background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.07)}
+.lab-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(22px,3.5vw,48px);align-items:center}
+@media(max-width:900px){.lab-grid{grid-template-columns:1fr}}
+.ctrl{margin-bottom:22px}
+.ctrl-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.ctrl-name{font-family:var(--fm);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.ctrl-val{font-family:var(--fd);font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;cursor:ew-resize;display:block}
+input[type=range]::-webkit-slider-runnable-track{height:3px;border-radius:3px;background:linear-gradient(90deg,var(--acc,var(--blue)) var(--p,50%),var(--trk) var(--p,50%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;margin-top:-8px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.25);transition:transform .2s var(--ease),box-shadow .2s}
+input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.14)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.28);box-shadow:0 0 0 7px rgba(41,151,255,.18),0 2px 8px rgba(0,0,0,.5)}
+input[type=range]::-moz-range-track{height:3px;border-radius:3px;background:var(--trk)}
+input[type=range]::-moz-range-progress{height:3px;border-radius:3px;background:var(--acc,var(--blue))}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border:0;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.sec--paper input[type=range]::-webkit-slider-thumb{background:#0b0c10;box-shadow:0 2px 8px rgba(0,0,0,.28),0 0 0 1px rgba(0,0,0,.1)}
+.sec--paper input[type=range]::-moz-range-thumb{background:#0b0c10}
+
+.presets{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.pbtn{border:1px solid var(--line);background:rgba(255,255,255,.03);border-radius:999px;padding:8px 14px;font-size:12.5px;cursor:pointer;color:var(--dim);transition:all .28s var(--ease);font-family:var(--fb)}
+.pbtn:hover{color:#fff;border-color:rgba(41,151,255,.55);background:rgba(41,151,255,.12);transform:translateY(-1px)}
+.sec--paper .pbtn:hover{color:#04050a}
+.pbtn.on{color:#04050a;background:var(--blue);border-color:var(--blue);font-weight:600}
+.readout{font-family:var(--fm);font-size:13px;line-height:1.6;border-top:1px solid var(--line);padding-top:16px;margin-top:18px;color:var(--dim);min-height:74px}
+.readout b{color:var(--txt);font-family:var(--fb);font-weight:600}
+
+.tri-svg{width:100%;height:auto;overflow:visible}
+.tri-ref{fill:none;stroke:var(--line);stroke-dasharray:3 6}
+.tri-shape{fill:rgba(41,151,255,.09);stroke:var(--blue);stroke-width:1.6;transition:all .35s var(--ease)}
+.tri-spoke{stroke:var(--blue);opacity:.42;transition:all .35s var(--ease)}
+.tri-lab{font-family:var(--fm);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;fill:var(--dim)}
+.tri-lab .lv{font-family:var(--fd);font-size:19px;font-weight:800;fill:var(--txt);letter-spacing:-.03em}
+.q-dot{transition:r .35s var(--ease),fill .5s}
+.q-txt{font-family:var(--fd);font-weight:800;font-size:23px;fill:#04050a;text-anchor:middle;letter-spacing:-.04em}
+.q-cap{font-family:var(--fm);font-size:9px;letter-spacing:.2em;fill:rgba(255,255,255,.55);text-anchor:middle}
+
+/* iron triangle chips */
+.iron{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.iron button{border:1px solid var(--line);background:transparent;border-radius:12px;padding:11px 18px;font-family:var(--fd);font-weight:700;font-size:14px;letter-spacing:-.01em;cursor:pointer;color:var(--dim);transition:all .3s var(--ease)}
+.iron button.on{color:#04050a;background:var(--green);border-color:var(--green);box-shadow:0 6px 22px rgba(48,209,88,.28)}
+.iron button.deny{animation:deny .45s var(--ease)}
+@keyframes deny{0%,100%{transform:none}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+#ironMsg{font-family:var(--fm);font-size:11.5px;letter-spacing:.08em;color:var(--amber);min-height:20px;margin-left:6px;transition:opacity .3s}
+
+/* ============ RAILS (S3) ============ */
+.rails{border:1px solid var(--line);border-radius:22px;padding:clamp(20px,3vw,32px);background:#fff}
+.rail-row{margin-bottom:6px}
+.rail-label{font-family:var(--fm);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:#5c616d;margin-bottom:9px;display:flex;justify-content:space-between}
+.rail{display:flex;gap:4px;height:60px}
+.rail span{display:grid;place-items:center;text-align:center;font-size:12px;font-weight:500;border-radius:9px;padding:4px;line-height:1.15;overflow:hidden}
+.track-a span{background:#0b0c10;color:#fff}
+.track-a span:nth-child(3){background:var(--blue);color:#04050a;font-weight:600}
+.track-b span{background:rgba(41,151,255,.13);border:1px solid rgba(41,151,255,.3);color:#1a4d80;font-family:var(--fm);font-size:10px;letter-spacing:.04em;position:relative}
+.track-b span.gen::after{content:'';position:absolute;left:0;top:-8px;bottom:-8px;width:1px;background:var(--red);opacity:.55}
+.gapband{height:34px;margin:12px 0;display:flex;align-items:center;gap:12px;
+  background:repeating-linear-gradient(-45deg,rgba(255,69,58,.09) 0 7px,transparent 7px 14px);border-top:1px dashed rgba(255,69,58,.4);border-bottom:1px dashed rgba(255,69,58,.4)}
+.gapband b{font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);background:#fff;padding:0 10px;margin-left:14px}
+.verdict{margin-top:22px;border-radius:14px;padding:18px 20px;border:1px solid var(--line);font-size:15.5px;background:rgba(48,209,88,.08);transition:background .4s,border-color .4s}
+.verdict b{display:block;font-family:var(--fm);font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:7px;color:var(--green)}
+.verdict.warn{background:rgba(255,159,10,.1);border-color:rgba(255,159,10,.35)}
+.verdict.warn b{color:#b26a00}
+.verdict.bad{background:rgba(255,69,58,.09);border-color:rgba(255,69,58,.35)}
+.verdict.bad b{color:var(--red)}
+
+/* ============ SDLC ============ */
+.stages{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}
+.stage{flex:1 1 0;min-width:118px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);padding:14px 12px;cursor:pointer;text-align:left;transition:all .35s var(--ease);position:relative;overflow:hidden}
+.stage:hover{transform:translateY(-3px);border-color:rgba(41,151,255,.45)}
+.stage.on{background:rgba(41,151,255,.14);border-color:var(--blue)}
+.stage .sn{font-family:var(--fm);font-size:10px;letter-spacing:.14em;color:var(--dim)}
+.stage .st{font-family:var(--fd);font-weight:700;font-size:14.5px;letter-spacing:-.02em;margin-top:7px;line-height:1.15}
+.stage .sc{font-family:var(--fm);font-size:10px;color:var(--red);margin-top:9px;letter-spacing:.06em}
+.curve{margin:14px 0 0;border:1px solid var(--line);border-radius:18px;padding:20px 20px 12px;background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+.curve svg{width:100%;height:auto}
+.cv-bar{fill:rgba(255,255,255,.1);transition:fill .3s}
+.cv-bar.on{fill:var(--blue)}
+.cv-line{fill:none;stroke:var(--red);stroke-width:1.6;stroke-dasharray:4 5;animation:dash 22s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-200}}
+.cv-t{font-family:var(--fm);font-size:9px;fill:var(--dim);text-anchor:middle;letter-spacing:.06em}
+.detail{border:1px solid var(--line);border-radius:20px;margin-top:22px;overflow:hidden;background:var(--panel)}
+.dt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line2)}
+.dt-grid>div{background:var(--panel);padding:18px 18px 16px}
+.dt-k{font-family:var(--fm);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.dt-v{font-size:14.5px;line-height:1.45}
+.dt-case{padding:20px 22px;border-top:1px solid var(--line);font-size:15.5px;color:#c4c8d0;background:rgba(255,69,58,.05)}
+.dt-case b{color:var(--red)}
+@media(max-width:860px){.dt-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.dt-grid{grid-template-columns:1fr}}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th{font-family:var(--fm);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:500}
+.tbl td{padding:15px 14px;border-bottom:1px solid var(--line2);vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tbody tr{transition:background .3s}
+.tbl tbody tr:hover{background:rgba(255,255,255,.035)}
+.sec--paper .tbl tbody tr:hover{background:rgba(0,0,0,.028)}
+.tbl .lead{font-family:var(--fd);font-weight:700;letter-spacing:-.02em}
+
+/* floors */
+.floors{display:flex;flex-direction:column;gap:9px}
+.floor{border:1px solid var(--line);border-radius:16px;padding:20px 22px;display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:center;background:#fff;cursor:default;transition:transform .4s var(--ease),box-shadow .4s,border-color .3s}
+.floor:hover{transform:translateX(9px);border-color:var(--blue);box-shadow:-6px 12px 40px rgba(0,0,0,.09)}
+.floor .fl-n{font-family:var(--fd);font-weight:800;font-size:1.22rem;letter-spacing:-.03em}
+.floor .fl-d{font-size:14.5px;color:#3d424e}
+.floor .fl-a{font-family:var(--fm);font-size:11px;letter-spacing:.1em;color:var(--blue);text-align:right;text-transform:uppercase}
+@media(max-width:820px){.floor{grid-template-columns:1fr;gap:8px}.floor .fl-a{text-align:left}}
+
+.envpick{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 24px}
+.envout{border:1px solid var(--line);border-radius:18px;padding:22px;background:#fff;min-height:150px}
+.envrow{display:grid;grid-template-columns:112px 1fr;gap:16px;align-items:start;padding:11px 0;border-top:1px solid var(--line2)}
+.envrow:first-child{border-top:0}
+.envrow .ek{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding-top:6px}
+.ek.must{color:var(--green)}.ek.ok{color:#b26a00}.ek.no{color:var(--red)}
+.envnote{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);font-size:15px;color:#3d424e}
+@media(max-width:620px){.envrow{grid-template-columns:1fr;gap:6px}}
+
+/* compare */
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:24px}
+.cmp>div{background:#fff;padding:22px}
+.cmp h4{font-family:var(--fm);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:14px;font-weight:500}
+.cmp ul{margin:0;padding-left:17px;font-size:15px}
+.cmp li{margin-bottom:8px;color:#3d424e}
+.cmp .yes h4{color:var(--green)}.cmp .no h4{color:var(--red)}
+@media(max-width:680px){.cmp{grid-template-columns:1fr}}
+
+/* checklist formal */
+.ck{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:7px}
+.ck li{display:flex;gap:12px;align-items:center;font-family:var(--fm);font-size:12.5px;letter-spacing:.05em;color:var(--dim);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.ck li span:first-child{color:var(--green)}
+.ck li i{margin-left:auto;font-style:normal;color:var(--red);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ============ RADAR (S6) ============ */
+.radar-wrap{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1fr);gap:clamp(22px,4vw,52px);align-items:center}
+@media(max-width:880px){.radar-wrap{grid-template-columns:1fr}}
+.rd-poly{fill:rgba(41,151,255,.16);stroke:var(--blue);stroke-width:1.8;transition:all .4s var(--ease)}
+.rd-grid{fill:none;stroke:var(--line)}
+.rd-axis{stroke:var(--line2)}
+.rd-t{font-family:var(--fm);font-size:10px;letter-spacing:.13em;text-transform:uppercase;fill:var(--dim);text-anchor:middle}
+.rd-v{font-family:var(--fd);font-weight:800;font-size:17px;fill:var(--txt);text-anchor:middle;letter-spacing:-.03em}
+.bigstat{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:28px}
+.bigstat>div{background:var(--panel);padding:20px}
+.bigstat .v{font-family:var(--fd);font-weight:800;font-size:clamp(1.7rem,3.4vw,2.7rem);letter-spacing:-.05em;line-height:1}
+.bigstat .k{font-size:13px;color:var(--dim);margin-top:9px;line-height:1.35}
+@media(max-width:700px){.bigstat{grid-template-columns:1fr}}
+
+/* ============ ROLES (S7) ============ */
+.rolemap{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin-top:22px}
+.rt{border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;background:#fff;position:relative;overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s}
+.rt:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.09)}
+.rt .z{font-family:var(--fm);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:9px}
+.rt .n{font-family:var(--fd);font-weight:800;font-size:1.06rem;letter-spacing:-.025em;line-height:1.15;margin-bottom:9px}
+.rt .d{font-size:14px;color:#3d424e;line-height:1.5}
+.rt.ghost{border-style:dashed;background:transparent;border-color:rgba(255,69,58,.45)}
+.rt.ghost .z{color:var(--red)}
+.rt.ghost .n{color:var(--dim)}
+.rt-in{animation:rtIn .5s var(--ease) backwards}
+@keyframes rtIn{from{opacity:0;transform:translateY(14px) scale(.98)}}
+.roleverdict{margin-top:20px;border-left:3px solid var(--blue);padding:4px 0 4px 18px;font-size:16.5px;color:#3d424e}
+.revealbox{border:1px dashed rgba(255,69,58,.5);border-radius:14px;padding:18px 20px;margin-top:14px;background:rgba(255,69,58,.05)}
+.revealbox button{border:0;background:var(--red);color:#fff;border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600;cursor:pointer;transition:transform .3s var(--ease),filter .3s}
+.revealbox button:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.revealbox .out{display:none;margin-top:14px;font-size:15.5px;animation:fade .5s var(--ease)}
+.revealbox.open .out{display:block}
+.revealbox.open button{display:none}
+
+/* ============ STACK (ИТОГ) ============ */
+.stack{display:flex;flex-direction:column;gap:20px}
+.stack-card{position:sticky;top:calc(88px + var(--i)*15px);border:1px solid var(--line);border-radius:24px;padding:clamp(24px,3.4vw,40px);
+  background:linear-gradient(150deg,#14171f,#0d0f15);box-shadow:0 -1px 0 rgba(255,255,255,.06) inset,0 30px 70px rgba(0,0,0,.5);
+  display:grid;grid-template-columns:96px minmax(0,1fr) minmax(0,1fr);gap:clamp(18px,3vw,40px);align-items:start}
+.stack-card .sk-n{font-family:var(--fd);font-weight:800;font-size:3rem;line-height:.8;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.3px rgba(255,255,255,.28)}
+.stack-card h3{font-size:clamp(1.25rem,2.2vw,1.85rem);margin-bottom:12px}
+.stack-card p{font-size:15.5px;color:#b9bec8;margin:0}
+.stack-card .ref{font-family:var(--fm);font-size:11.5px;letter-spacing:.06em;color:var(--dim);border-top:1px solid var(--line);padding-top:14px;margin-top:14px}
+.stack-card .ref b{color:var(--blue)}
+@media(max-width:900px){.stack-card{grid-template-columns:1fr;position:relative;top:0}.stack-card .sk-n{font-size:2.2rem}}
+
+/* ============ HOMEWORK ============ */
+.plan{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+@media(max-width:900px){.plan{grid-template-columns:1fr}}
+.day{border:1px solid var(--line);border-radius:20px;background:#fff;padding:24px;display:flex;flex-direction:column;gap:14px}
+.day .dh{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.day .dn{font-family:var(--fd);font-weight:800;font-size:1.15rem;letter-spacing:-.03em}
+.day .dart{font-family:var(--fm);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.day p{font-size:14.5px;color:#3d424e;margin:0}
+.lbl{display:flex;gap:12px;align-items:flex-start;cursor:pointer;padding:11px 0;border-top:1px solid var(--line2);font-size:14.8px;line-height:1.45;user-select:none}
+.lbl input{position:absolute;opacity:0;width:0;height:0}
+.box{flex:0 0 20px;width:20px;height:20px;border:1.5px solid rgba(0,0,0,.25);border-radius:6px;position:relative;transition:all .3s var(--ease);margin-top:1px}
+.box::after{content:'';position:absolute;left:6px;top:2.5px;width:5px;height:10px;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(42deg) scale(0);transition:transform .25s var(--ease)}
+.lbl input:checked+.box{background:var(--green);border-color:var(--green)}
+.lbl input:checked+.box::after{transform:rotate(42deg) scale(1)}
+.lbl input:checked~.ltx{opacity:.45;text-decoration:line-through}
+.ltx{transition:opacity .3s}
+.progring{display:flex;align-items:center;gap:16px}
+.progring svg{width:78px;height:78px;transform:rotate(-90deg)}
+.progring .bgc{fill:none;stroke:var(--line);stroke-width:6}
+.progring .fgc{fill:none;stroke:var(--blue);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .7s var(--ease)}
+.progring .pv{font-family:var(--fd);font-weight:800;font-size:1.7rem;letter-spacing:-.04em}
+.progring .pk{font-family:var(--fm);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+
+/* ============ CHECK ============ */
+.acc{border-top:1px solid var(--line)}
+.acc:last-of-type{border-bottom:1px solid var(--line)}
+.acc-h{width:100%;background:none;border:0;display:grid;grid-template-columns:44px minmax(0,1fr) auto auto;gap:16px;align-items:center;
+  padding:22px 6px;cursor:pointer;text-align:left;transition:padding .3s var(--ease)}
+.acc-h:hover{padding-left:14px}
+.acc-h .qn{font-family:var(--fm);font-size:11px;color:var(--dim);letter-spacing:.1em}
+.acc-h .qt{font-family:var(--fd);font-weight:700;font-size:clamp(1rem,1.5vw,1.2rem);letter-spacing:-.02em;line-height:1.24}
+.grade{display:flex;gap:6px}
+.grade button{border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 13px;font-family:var(--fm);font-size:10px;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;color:var(--dim);transition:all .28s var(--ease)}
+.grade button:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.grade button.yes.on{background:var(--green);border-color:var(--green);color:#04050a}
+.grade button.no.on{background:var(--red);border-color:var(--red);color:#fff}
+.acc-b{max-height:0;overflow:hidden;transition:max-height .55s var(--ease)}
+.acc-b .in{padding:0 6px 26px 60px;color:#b9bec8;font-size:15.5px;border-left:1px solid var(--line);margin-left:22px}
+.acc.open .acc-b{max-height:340px}
+.acc .caret{width:12px;height:12px;border-right:1.5px solid var(--dim);border-bottom:1.5px solid var(--dim);transform:rotate(45deg) translateY(-2px);transition:transform .4s var(--ease)}
+.acc.open .caret{transform:rotate(-135deg) translateY(-2px)}
+@media(max-width:760px){.acc-h{grid-template-columns:34px 1fr auto;row-gap:12px}.grade{grid-column:1/-1}.acc-b .in{padding-left:6px;margin-left:0}}
+
+/* ============ FOOTER ============ */
+.foot{background:var(--deep);padding:clamp(70px,10vw,130px) 0 44px;border-top:1px solid var(--line)}
+.foot-h{font-size:clamp(2rem,6.4vw,5rem);letter-spacing:-.05em;line-height:.94;margin-bottom:26px}
+.nextcard{border:1px solid var(--line);border-radius:24px;padding:clamp(24px,3.4vw,40px);background:linear-gradient(140deg,rgba(41,151,255,.11),rgba(125,122,255,.06));margin-top:34px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(22px,4vw,54px)}
+@media(max-width:860px){.nextcard{grid-template-columns:1fr}}
+.nextcard ul{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.nextcard li{display:flex;gap:12px;font-size:15.5px;color:#c4c8d0;align-items:baseline}
+.nextcard li b{font-family:var(--fm);font-size:10.5px;color:var(--blue);letter-spacing:.12em;flex:0 0 30px}
+.cta{display:inline-flex;align-items:center;gap:12px;border:0;background:var(--blue);color:#04050a;font-family:var(--fd);font-weight:700;font-size:16px;
+  padding:15px 28px;border-radius:999px;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s;letter-spacing:-.01em}
+.cta:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(41,151,255,.4)}
+.cta[disabled]{background:transparent;color:var(--dim);border:1px solid var(--line);cursor:default;box-shadow:none;transform:none}
+.ctahint{font-family:var(--fm);font-size:11.5px;letter-spacing:.08em;color:var(--amber);margin-top:14px;min-height:18px}
+.locked{opacity:.28;filter:grayscale(.6);transition:opacity .8s var(--ease),filter .8s}
+.locked.open{opacity:1;filter:none}
+.foot-bottom{display:flex;flex-wrap:wrap;gap:14px 30px;justify-content:space-between;align-items:center;margin-top:56px;padding-top:24px;border-top:1px solid var(--line);font-family:var(--fm);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#6b6f7a}
+
+/* misc */
+.hr{height:1px;background:var(--line);border:0;margin:clamp(40px,6vw,72px) 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,34px)}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.note{font-size:14.5px;color:var(--dim);border-left:1px solid var(--line);padding-left:16px}
+.kpi{display:flex;gap:26px;flex-wrap:wrap;margin:22px 0}
+.kpi div{border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.kpi .v{font-family:var(--fd);font-weight:800;font-size:1.5rem;letter-spacing:-.04em;line-height:1}
+.kpi .k{font-family:var(--fm);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin-top:6px}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .ln>i{transform:none}
+  .stack-card{position:relative;top:0}
+  .spot{display:none}
+}
+</style>
+</head>
+<body id="top">
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="brand-mark">S0</span><span>Язык и рамки</span></a>
+    <nav class="nav-links" aria-label="Разделы модуля">
+      <a href="#s1">Проект</a><a href="#s2">Треугольник</a><a href="#s3">Циклы</a><a href="#s4">SDLC</a>
+      <a href="#s5">Стандарты</a><a href="#s6">Triangle</a><a href="#s7">Роли</a><a href="#itog">Итог</a>
+    </nav>
+    <div class="nav-meta"><span id="navPct">0%</span></div>
+  </div>
+  <div class="nav-prog"><i id="progBar"></i></div>
+</header>
+
+<aside class="rail" aria-label="Навигация по главам">
+  <a href="#s1" data-t="01 · Проект / Операция / Продукт"><span></span></a>
+  <a href="#s2" data-t="02 · Треугольник"><span></span></a>
+  <a href="#s3" data-t="03 · Два жизненных цикла"><span></span></a>
+  <a href="#s4" data-t="04 · SDLC"><span></span></a>
+  <a href="#s5" data-t="05 · Стандарты"><span></span></a>
+  <a href="#s6" data-t="06 · Talent Triangle"><span></span></a>
+  <a href="#s7" data-t="07 · Роли"><span></span></a>
+  <a href="#itog" data-t="Итог · 7 шагов"><span></span></a>
+  <a href="#plan" data-t="Домашний план"><span></span></a>
+</aside>
+
+<main>
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="frame f1" aria-hidden="true"></div>
+  <div class="frame f2" aria-hidden="true"></div>
+  <div class="frame f3" aria-hidden="true"></div>
+  <div class="spot" id="spot" aria-hidden="true"></div>
+
+  <div class="wrap hero-in rv in">
+    <p class="eyebrow">Модуль 0 · большой разбор с реальными историями · 2012—2026</p>
+    <h1 class="h-xl hero-h1">
+      <span class="ln"><i>Язык</i></span>
+      <span class="ln"><i style="--d:110ms">и&nbsp;<em>рамки</em></i></span>
+    </h1>
+    <p class="hero-lede">Я буду рассказывать не «определения с примерами», а <b>истории, из которых определения вылезают сами</b>. Каждая история ниже — реальный проект, реальные деньги, реальные люди. Читая их, ты будешь не запоминать термины, а <b>узнавать</b> их: «а, вот это тот самый треугольник, на котором Healthcare.gov разбился».</p>
+
+    <ul class="stats" id="stats">
+      <li><div class="v">$<span data-count="19" data-dec="0">0</span><small>млрд</small></div><div class="k">WhatsApp · 55 человек · 2014</div></li>
+      <li><div class="v">$<span data-count="440">0</span><small>млн</small></div><div class="k">Knight Capital · 45 минут</div></li>
+      <li><div class="v">£<span data-count="12">0</span><small>млрд</small></div><div class="k">NHS · реализовано ~10%</div></li>
+      <li><div class="v t-red"><span data-count="346">0</span></div><div class="k">Boeing 737 MAX · погибших</div></li>
+    </ul>
+  </div>
+
+  <div class="scrollcue" aria-hidden="true">Скролль<span></span></div>
+
+  <div class="mq" aria-label="Истории разбора">
+    <div class="mq-track" id="mqTrack"></div>
+  </div>
+</section>
+
+<!-- ================= MAP ================= -->
+<section class="sec sec--ink2" id="map">
+  <div class="wrap">
+    <div class="head-split rv">
+      <div>
+        <p class="eyebrow">Карта разбора</p>
+        <h2 class="h-lg"><span class="ln"><i>Семь блоков.</i></span><span class="ln"><i style="--d:90ms">Двенадцать историй.</i></span></h2>
+      </div>
+      <p class="lede">Это не «введение». Это <strong>операционная система</strong>, на которую нанизывается всё остальное — S1 ценность, S2 содержание, S3 оценка, S4 команда. Без неё они останутся словами, которые ты пересказываешь, но не применяешь.</p>
+    </div>
+
+    <div class="rv">
+      <a class="map-row" href="#s1"><span class="map-num">01</span><span class="map-t">Проект / Операция / Продукт</span><span class="map-s">WhatsApp: 55 человек, $19 млрд</span><span class="map-w">Почему путаница стоит карьеры</span><span class="map-arrow">→</span></a>
+      <a class="map-row" href="#s2"><span class="map-num">02</span><span class="map-t">Треугольник</span><span class="map-s">Healthcare.gov, 1 октября 2013</span><span class="map-w">Почему «хочу всё и вчера» математически невозможно</span><span class="map-arrow">→</span></a>
+      <a class="map-row" href="#s3"><span class="map-num">03</span><span class="map-t">Два жизненных цикла</span><span class="map-s">NHS, £12 млрд</span><span class="map-w">Почему «жизненный цикл» — это два разных слова</span><span class="map-arrow">→</span></a>
+      <a class="map-row" href="#s4"><span class="map-num">04</span><span class="map-t">SDLC</span><span class="map-s">Knight Capital: 45 минут, $440 млн</span><span class="map-w">Почему этап, на котором ты не был, убьёт проект</span><span class="map-arrow">→</span></a>
+      <a class="map-row" href="#s5"><span class="map-num">05</span><span class="map-t">Стандарты</span><span class="map-s">Lidl: €500 млн за 7 лет</span><span class="map-w">Почему метод не спасает от идиотов (и наоборот)</span><span class="map-arrow">→</span></a>
+      <a class="map-row" href="#s6"><span class="map-num">06</span><span class="map-t">Talent Triangle</span><span class="map-s">Boeing 737 MAX</span><span class="map-w">Почему гениальные инженеры проваливают проекты</span><span class="map-arrow">→</span></a>
+      <a class="map-row" href="#s7"><span class="map-num">07</span><span class="map-t">Роли</span><span class="map-s">Spotify, Amazon, Альфа-Банк</span><span class="map-w">Кто на самом деле решает</span><span class="map-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= S1 ================= -->
+<section class="sec" id="s1">
+  <div class="wrap">
+    <div class="ch-head rv">
+      <div class="ch-num">01</div>
+      <div>
+        <p class="eyebrow">Язык · три разных режима работы</p>
+        <h2 class="h-lg"><span class="ln"><i>Проект ≠ Операция ≠ Продукт</i></span></h2>
+        <p class="ch-sub">Половина провалов в IT — это проект, который ведут как операцию, или операция, задушенная проектной бюрократией.</p>
+      </div>
+    </div>
+
+    <div class="cols">
+      <!-- sticky panel -->
+      <div class="sticky rv">
+        <div class="modes" id="modes">
+          <div class="modes-top" role="tablist" aria-label="Режимы работы">
+            <button role="tab" class="on" data-m="project" aria-selected="true">Проект</button>
+            <button role="tab" data-m="operation" aria-selected="false">Операция</button>
+            <button role="tab" data-m="product" aria-selected="false">Продукт</button>
+            <i class="modes-ind" id="modesInd"></i>
+          </div>
+          <div class="mode-body">
+            <div class="mode-pane on" data-m="project">
+              <h4>Дело с датой смерти</h4>
+              <p class="def">Уникальный результат, ограниченное время, ограниченные ресурсы. У него есть конец — и это его главное свойство.</p>
+              <div class="mode-bar"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="mode-years"><span>2009</span><span>WhatsApp · фаза сборки</span><span>2012</span></div>
+              <p class="mode-note">Был бэклог, спринты, дедлайны и одна цель: «сделать так, чтобы сообщения доставлялись надёжно». Ян Кум и Брайан Актон в крошечной команде.</p>
+            </div>
+            <div class="mode-pane" data-m="operation">
+              <h4>У него нет конца — есть ритм</h4>
+              <p class="def">То, что повторяется вечно: мониторить сервера, чинить баги, выпускать патчи, отвечать на сбои, дежурить.</p>
+              <div class="mode-bar"><i class="f2"></i><i class="f2"></i><i class="f2"></i><i class="f2"></i><i class="f2"></i><i class="f2"></i><i class="f2"></i><i class="f2"></i></div>
+              <div class="mode-years"><span>2012</span><span>сотни миллионов пользователей</span><span>2014</span></div>
+              <p class="mode-note">Команда перестала «строить» и начала эксплуатировать. Каждый день одно и то же: аптайм, латентность, дежурства. Другая мышца, другие метрики, другие люди.</p>
+            </div>
+            <div class="mode-pane" data-m="product">
+              <h4>Пережил обоих и живёт сам</h4>
+              <p class="def">То, что осталось после проекта и продолжает приносить деньги или пользу. У него нет «сдачи» — есть жизненный цикл: рост, зрелость, старение.</p>
+              <div class="mode-bar"><i class="f3"></i><i class="f3"></i><i class="f3"></i><i class="f3"></i><i class="f3"></i><i class="f3"></i><i class="f3"></i><i class="f3"></i></div>
+              <div class="mode-years"><span>2009</span><span>сам WhatsApp</span><span>→</span></div>
+              <p class="mode-note">Facebook купил именно продукт. Но в момент сделки внутри были живы все три режима одновременно — и вот тут началась ловушка.</p>
+            </div>
+          </div>
+        </div>
+        <p class="mono" style="margin-top:14px">Панель переключается сама, пока ты читаешь →</p>
+      </div>
+
+      <!-- narrative -->
+      <div>
+        <article class="step rv" data-mode="project">
+          <span class="tagline">Простое объяснение</span>
+          <h3>Три слова, которые все путают</h3>
+          <p><strong>Проект</strong> — это дело с датой смерти. <strong>Операция</strong> — это то, что повторяется вечно. <strong>Продукт</strong> — это то, что пережило проект и продолжает жить своей жизнью.</p>
+          <p>Звучит банально. А теперь посмотри, сколько денег стоит неумение отличить одно от другого.</p>
+        </article>
+
+        <article class="step rv" data-mode="project">
+          <span class="tagline">Большая история · февраль 2014</span>
+          <h3>WhatsApp: $19 млрд за 55 человек</h3>
+          <p>Facebook купил WhatsApp за <strong>$19 миллиардов</strong>. В компании работало <strong>55 человек</strong>. Ни рекламного отдела, ни менеджеров по продажам, ни аналитиков рынка.</p>
+          <p>Смотри на это как на три слоя: <strong>фаза 1 — проект</strong> (2009–2012, сборка мессенджера), <strong>фаза 2 — операция</strong> (2012–2014, удержание сотен миллионов пользователей), <strong>фаза 3 — продукт</strong> (весь период, то, что реально купили).</p>
+        </article>
+
+        <article class="step rv" data-mode="product">
+          <span class="tagline">Где ловушка</span>
+          <h3>Купить продукт — не значит убить операцию</h3>
+          <p>Если бы менеджеры Facebook пришли и сказали: «Отлично, теперь у нас <em>проект</em> по интеграции, вот вам 18 месяцев и 200 человек» — они бы убили операцию, которая кормила продукт.</p>
+          <p>Именно так и произошло с Instagram после покупки: основатели ушли, потому что корпоративный проектный режим задушил операционную культуру.</p>
+        </article>
+
+        <article class="step rv" data-mode="operation">
+          <span class="tagline">Вторая история · 1 августа 2012</span>
+          <h3>Knight Capital: операция, которая убила проект</h3>
+          <p>Рынок открылся. Через <strong>45 минут</strong> Knight Capital — крупнейший маркет-мейкер Уолл-стрит — потеряла <strong>$440 миллионов</strong> и фактически перестала существовать.</p>
+          <p>Причина — не проект, а <strong>операция</strong>. Один из восьми серверов не получил обновление при плановом деплое, и на нём остался старый код функции Power Peg, отключённой ещё в 2005-м, но <strong>не удалённой</strong>. Новый код переиспользовал старый флаг. Сервер начал скупать акции, которые никто не продавал, и продавать те, которых у него не было.</p>
+          <p class="note"><strong>Урок:</strong> проект (обновление кода) прошёл успешно. Операция (поддержка серверного парка) была провалена. Если бы ты вёл этот «проект по деплою», ты бы поставил галочку: «задача выполнена, все сервера обновлены». А один сервер — нет. <strong>В проекте ты отвечаешь за изменение, в операции — за постоянство.</strong></p>
+        </article>
+
+        <article class="step rv" data-mode="project">
+          <span class="tagline">Мини-примеры из твоей будущей жизни</span>
+          <h3>Тот же объект — три разных работы</h3>
+          <div class="chips">
+            <span class="chip b">Проект · сайт для клиента за 3 месяца</span>
+            <span class="chip a">Операция · «ну и поддерживайте потом»</span>
+            <span class="chip g">Продукт · сайт через 2 года приносит заявки</span>
+            <span class="chip b">Проект · миграция банка на новое ядро</span>
+            <span class="chip a">Операция · ежедневные ночные релизы</span>
+            <span class="chip g">Продукт · мобильный банк, которому 10 лет</span>
+          </div>
+          <p>Поддержку надо оплачивать <strong>отдельно</strong>, потому что это другая работа. Не «доделка». Другая.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>Проект умирает.<br>Операция не умирает.<br>Продукт переживает оба.</p>
+      <div class="who">Что ты должен вынести · блок 01</div>
+    </div>
+
+    <div class="prac rv">
+      <span class="tagline">Практика</span>
+      <p style="margin:0">Возьми своё текущее занятие — учёба, работа, пет-проект — и честно ответь:</p>
+      <ol>
+        <li>У этого есть дата смерти? → <strong>проект</strong>.</li>
+        <li>Это повторяется изо дня в день без конца? → <strong>операция</strong>.</li>
+        <li>Это останется и будет жить после того, как ты закончишь? → <strong>продукт</strong>.</li>
+      </ol>
+      <p class="fine">Если ответ «и то, и другое, и третье» — поздравляю, ты в реальной IT-работе. Теперь раздели: что из этого ты ведёшь как проект, а что как операцию. <strong>Запиши.</strong> Если ты не можешь за секунду сказать, в каком режиме ты сейчас — ты управляешь не тем объектом.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= S2 ================= -->
+<section class="sec sec--ink2" id="s2">
+  <div class="wrap">
+    <div class="ch-head rv">
+      <div class="ch-num">02</div>
+      <div>
+        <p class="eyebrow">Рамки · тройственное ограничение</p>
+        <h2 class="h-lg"><span class="ln"><i>Почему «хочу всё и вчера» —</i></span><span class="ln"><i style="--d:90ms">не просьба, а противоречие</i></span></h2>
+        <p class="ch-sub">«Быстро, качественно, дёшево — выбери два». Это не шутка. Это геометрия.</p>
+      </div>
+    </div>
+
+    <div class="lab rv">
+      <div class="lab-grid">
+        <div>
+          <p class="eyebrow" style="margin-bottom:10px">Лаборатория · потяни за вершину</p>
+          <p style="color:var(--dim);font-size:15px;margin-bottom:24px">Три вершины: <strong class="t-blue">объём</strong> (что делаем), <strong class="t-blue">сроки</strong> (когда), <strong class="t-blue">стоимость</strong> (какими ресурсами). В центре — <strong>качество</strong>. Потянул за одну — обязана сдвинуться другая.</p>
+
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Объём работ</span><span class="ctrl-val" id="vScope">70</span></div>
+            <input type="range" id="rScope" min="0" max="100" value="70" aria-label="Объём работ">
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Свобода по срокам</span><span class="ctrl-val" id="vTime">30</span></div>
+            <input type="range" id="rTime" min="0" max="100" value="30" aria-label="Свобода по срокам">
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Стоимость / ресурсы</span><span class="ctrl-val" id="vCost">40</span></div>
+            <input type="range" id="rCost" min="0" max="100" value="40" aria-label="Стоимость и ресурсы">
+          </div>
+
+          <p class="mono" style="margin:20px 0 10px">Загрузить реальный проект</p>
+          <div class="presets" id="triPresets">
+            <button class="pbtn" data-p="hcg">Healthcare.gov</button>
+            <button class="pbtn" data-p="cyber">Cyberpunk 2077</button>
+            <button class="pbtn" data-p="hershey">Hershey's</button>
+            <button class="pbtn" data-p="ok">Здравый смысл</button>
+          </div>
+
+          <div class="iron" role="group" aria-label="Выбери два">
+            <button data-i="0">Быстро</button><button data-i="1">Качественно</button><button data-i="2">Дёшево</button>
+            <span id="ironMsg"></span>
+          </div>
+        </div>
+
+        <div>
+          <svg class="tri-svg" id="triSvg" viewBox="0 0 360 340" role="img" aria-label="Интерактивный треугольник ограничений">
+            <polygon class="tri-ref" id="triRef"></polygon>
+            <line class="tri-spoke" id="spScope"></line>
+            <line class="tri-spoke" id="spTime"></line>
+            <line class="tri-spoke" id="spCost"></line>
+            <polygon class="tri-shape" id="triShape"></polygon>
+            <circle class="q-dot" id="qDot" cx="180" cy="200" r="34" fill="#30d158"></circle>
+            <text class="q-txt" id="qTxt" x="180" y="200">72</text>
+            <text class="q-cap" x="180" y="220">КАЧЕСТВО</text>
+            <g class="tri-lab" id="labScope"><text text-anchor="middle">ОБЪЁМ</text><text class="lv" text-anchor="middle" dy="22">70</text></g>
+            <g class="tri-lab" id="labTime"><text text-anchor="middle">СРОКИ</text><text class="lv" text-anchor="middle" dy="22">30</text></g>
+            <g class="tri-lab" id="labCost"><text text-anchor="middle">СТОИМОСТЬ</text><text class="lv" text-anchor="middle" dy="22">40</text></g>
+          </svg>
+          <div class="readout" id="triRead"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:clamp(34px,5vw,60px)">
+      <article class="dossier rv">
+        <div class="ds-head"><h3>Healthcare.gov</h3><span class="ds-tag">Кейс · 1 октября 2013 · США</span></div>
+        <dl class="ds-meta">
+          <div><dt>Сроки</dt><dd class="t-red">вписаны в закон</dd></div>
+          <div><dt>Объём</dt><dd>рос каждые 2 недели</dd></div>
+          <div><dt>Подрядчиков</dt><dd>55</dd></div>
+          <div><dt>Первый день</dt><dd class="t-red">6 человек</dd></div>
+        </dl>
+        <div class="ds-body">
+          <p>Вступает в силу Affordable Care Act — главный закон президентства Обамы. Чтобы он работал, нужен сайт, через который 36 миллионов американцев покупают медицинскую страховку.</p>
+          <ul>
+            <li><b>Сроки — неподвижная вершина.</b> 1 октября. Не «примерно», не «когда будет готово». Сдвинуть дату = политический скандал.</li>
+            <li><b>Объём — рос бесконтрольно.</b> Вот штат хочет особую логику, вот страховая — свой формат, вот интеграция с 50 системами. Никто не говорил «нет», потому что говорить «нет» президентской администрации неудобно.</li>
+            <li><b>Стоимость — распухла, но не считалась.</b> 55 подрядчиков, ни один не владел полной картиной. Ключевые модули писали команды, которые между собой почти не разговаривали.</li>
+            <li><b>Качество — стало жертвой.</b> McKinsey ещё в начале 2013 предупреждал: <b>недостаточно времени на тестирование</b>. Не послушали.</li>
+          </ul>
+          <p>Сайт упал в течение двух часов. В первый день во всей стране <strong>только шесть человек</strong> смогли выбрать страховой план. Обама публично признал провал.</p>
+        </div>
+        <p class="ds-lesson"><span>Что случилось с треугольником</span>Сроки зафиксированы → объём рос → стоимость распухла на тушение → качество упало до нуля. Все четыре вершины двигались в худшую сторону, потому что <strong>никто не управлял ограничениями — все управляли только объёмом</strong>. Через месяц сайт чинила команда из 60 человек, круглосуточно сидящая в одной комнате. Ущерб политический уже был нанесён.</p>
+      </article>
+
+      <div>
+        <article class="dossier rv" style="--d:80ms">
+          <div class="ds-head"><h3>Cyberpunk 2077</h3><span class="ds-tag">Кейс · декабрь 2020 · CD Projekt Red</span></div>
+          <dl class="ds-meta">
+            <div><dt>Объём</dt><dd>огромный мир, 2 поколения консолей</dd></div>
+            <div><dt>Сроки</dt><dd>3 переноса</dd></div>
+            <div><dt>Стоимость</dt><dd class="t-red">кранч</dd></div>
+            <div><dt>Итог</dt><dd class="t-red">удаление из PS Store</dd></div>
+          </dl>
+          <div class="ds-body">
+            <p>Польская студия, автор «Ведьмака». Игра, которую ждали 8 лет. Вернули срок с 17 сентября на 19 ноября, потом на 10 декабря.</p>
+            <ul>
+              <li><b>Кранч</b> — 6-дневные недели по 12 часов, принудительно, несколько месяцев подряд. Это <b>скрытое увеличение стоимости</b> за счёт здоровья людей.</li>
+              <li><b>Качество</b> на ПК — сносно. На PS4 и Xbox One — катастрофа: вылеты, порча сохранений, невозможность пройти игру.</li>
+              <li><b>Sony удалила игру из PlayStation Store</b> — беспрецедентный случай. Массовые возвраты, акции рухнули, иски от собственных акционеров.</li>
+            </ul>
+          </div>
+          <p class="ds-lesson"><span>Урок</span>CDPR пыталась удержать все три вершины сразу: не резать объём, не сдвигать срок, не увеличивать бюджет. Система не выдержала, и качество рухнуло первым, потому что <strong>качество — единственная вершина, которую можно принести в жертву тихо</strong>. Соруководитель студии позже назвал выпуск сырой игры «однозначно неправильным».</p>
+        </article>
+
+        <article class="dossier rv" style="--d:160ms">
+          <div class="ds-head"><h3>Hershey's</h3><span class="ds-tag">Кейс · 1999 · SAP R/3 + i2</span></div>
+          <dl class="ds-meta">
+            <div><dt>Cutover</dt><dd class="t-red">июнь 1999</dd></div>
+            <div><dt>Систем</dt><dd>3 одновременно</dd></div>
+            <div><dt>Потери</dt><dd>$100 млн заказов</dd></div>
+            <div><dt>Акции</dt><dd class="t-red">−35% за день</dd></div>
+          </dl>
+          <div class="ds-body">
+            <p>Крупнейший производитель шоколада США внедряет SAP R/3, i2 Technologies и BW разом. Cutover назначен за <strong>4 месяца до Хэллоуина</strong> — пикового сезона продаж шоколада. Идеального окна не было, выбрали худшее.</p>
+            <p>Тестирование интеграции между системами <strong>сократили</strong>, чтобы успеть к сроку. К Хэллоуину компания не могла обрабатывать заказы. Конкурент Mars, который не торопился, собрал весь сезон.</p>
+          </div>
+          <p class="ds-lesson"><span>Урок</span>Срок был выбран не из логики проекта, а из логики «мы обещали акционерам к концу года». Когда срок столкнулся с объёмом, качество пострадало — и компания потеряла главный сезон в году.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>Треугольник — не закон физики.<br>Это инструмент разговора.</p>
+      <div class="who">Его задача — дать тебе легальную причину сказать «нет»</div>
+    </div>
+
+    <div class="cols rv">
+      <div>
+        <p class="lede" style="font-size:17px">Когда заказчик говорит «добавьте ещё одну фичу», ты не говоришь «нельзя». Ты говоришь: <strong>«Можно. Вот что мы двигаем: срок, бюджет или качество. Выбирайте»</strong>. Это превращает тебя из мальчика на побегушках в переговорщика.</p>
+      </div>
+      <div>
+        <div class="kpi">
+          <div><div class="v t-green">73.8%</div><div class="k">результативность там, где<br>системно управляют ограничениями</div></div>
+          <div><div class="v t-red">остальные</div><div class="k">тонут — PMI Pulse of the Profession</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prac rv">
+      <span class="tagline">Практика</span>
+      <p style="margin:0">Возьми последний запрос, который тебе «спустили сверху» (преподаватель, заказчик, начальник), и распиши по треугольнику:</p>
+      <ol>
+        <li>Что он двигает? Обычно — <strong>объём ↑</strong>.</li>
+        <li>Что при этом обязано сдвинуться? <strong>сроки ↑</strong> или <strong>стоимость ↑</strong> или <strong>качество ↓</strong>.</li>
+        <li>Ответ одной фразой: «Окей, делаем [X]. Тогда [Y] сдвинется на [Z]. Устраивает?»</li>
+      </ol>
+      <p class="fine">Если ты не можешь так ответить — ты не управляешь проектом, ты обслуживаешь чужие хотелки.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= S3 ================= -->
+<section class="sec sec--paper" id="s3">
+  <div class="wrap">
+    <div class="ch-head rv">
+      <div class="ch-num">03</div>
+      <div>
+        <p class="eyebrow">Две оси координат</p>
+        <h2 class="h-lg"><span class="ln"><i>Два жизненных цикла</i></span></h2>
+        <p class="ch-sub">Самая частая подстава в учебниках: «жизненный цикл» — это два совершенно разных слова, и их путают все подряд.</p>
+      </div>
+    </div>
+
+    <div class="grid2 rv">
+      <div class="dossier" style="margin:0">
+        <div class="ds-head"><h3>Ось A · управление проектом</h3><span class="ds-tag">это про тебя</span></div>
+        <div class="ds-body"><p style="margin-bottom:0">Инициация → Планирование → Исполнение → Мониторинг → Закрытие. Это фазы <strong>твоей работы</strong>: как ты принимаешь решения, считаешь деньги, закрываешь контракти.</p></div>
+      </div>
+      <div class="dossier" style="margin:0">
+        <div class="ds-head"><h3>Ось B · разработка</h3><span class="ds-tag">это про продукт</span></div>
+        <div class="ds-body"><p style="margin-bottom:0">Waterfall / итеративный / инкрементальный / Agile / DevOps. Это то, <strong>как меняется сам объект</strong> и как часто ты показываешь его миру.</p></div>
+      </div>
+    </div>
+    <p class="lede rv" style="margin-top:26px">Это <strong>две разные оси</strong>. Проект может быть в фазе «исполнение» (управление), а внутри него разработка идёт по Agile. Или проект в фазе «закрытие», а разработка всё ещё тянется по Waterfall.</p>
+
+    <div class="rails rv" style="margin-top:clamp(30px,4vw,50px)">
+      <div class="lab-grid" style="align-items:start">
+        <div>
+          <p class="eyebrow" style="margin-bottom:14px">Измеритель разрыва</p>
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Горизонт управления</span><span class="ctrl-val"><span id="vYears">8</span> лет</span></div>
+            <input type="range" id="rYears" min="1" max="10" step="0.5" value="8" aria-label="Горизонт управления в годах">
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Горизонт разработки</span><span class="ctrl-val"><span id="vMonths">6</span> мес</span></div>
+            <input type="range" id="rMonths" min="1" max="24" step="1" value="6" aria-label="Горизонт разработки в месяцах">
+          </div>
+          <div class="presets">
+            <button class="pbtn" data-c="nhs">NHS NPfIT</button>
+            <button class="pbtn" data-c="boeing">Boeing 737 MAX</button>
+            <button class="pbtn" data-c="healthy">Здоровый продукт</button>
+            <button class="pbtn" data-c="lidl">Lidl / SAP</button>
+          </div>
+          <div class="verdict" id="cycVerdict"></div>
+        </div>
+        <div>
+          <div class="rail-row">
+            <div class="rail-label"><span>Ось A · управление</span><span id="lifeSpan">8 лет</span></div>
+            <div class="rail track-a">
+              <span style="flex:8">Инициация</span><span style="flex:14">Планирование</span><span style="flex:44">Исполнение</span><span style="flex:26">Мониторинг</span><span style="flex:8">Закрытие</span>
+            </div>
+          </div>
+          <div class="gapband"><b id="gapLabel">разрыв ×16 · здесь умирают проекты</b></div>
+          <div class="rail-row">
+            <div class="rail-label"><span>Ось B · разработка</span><span id="genLabel">4 смены технологий</span></div>
+            <div class="rail track-b" id="trackB"></div>
+          </div>
+          <p class="mono" style="margin-top:12px">Красная черта — смена поколения технологий (примерно каждые 2 года)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:clamp(34px,5vw,60px)">
+      <article class="dossier rv">
+        <div class="ds-head"><h3>NHS National Programme for IT</h3><span class="ds-tag">2002—2010 · Великобритания</span></div>
+        <dl class="ds-meta">
+          <div><dt>Бюджет</dt><dd class="t-red">£12 млрд</dd></div>
+          <div><dt>Потрачено</dt><dd>~£10 млрд</dd></div>
+          <div><dt>Реализовано</dt><dd class="t-red">~10%</dd></div>
+          <div><dt>Контрактов</dt><dd>6 национальных</dd></div>
+        </dl>
+        <div class="ds-body">
+          <p>Цифровизация здравоохранения всей страны: электронная медкарта, национальная инфраструктура, запись к врачу, электронные рецепты. Подрядчики — EDS/Atos, CSC, Accenture, Fujitsu, Oracle, IDC.</p>
+          <ul>
+            <li><b>Управление:</b> гигантский waterfall-проект с 8-летним горизонтом. Отчёты по мониторингу были, правды — нет. Официально отменён в 2010-м.</li>
+            <li><b>Разработка:</b> сначала nationwide architecture, потом детальные требования, потом построение. Но медицина не поддаётся waterfall: <b>врачи не могли сформулировать требования, пока не увидят систему. А систему нельзя было построить, пока они не сформулируют требования. Дедлок.</b></li>
+            <li><b>Люди:</b> врачи не доверяли системе и саботировали внедрение — «не имеет влияния на безопасность пациентов».</li>
+          </ul>
+        </div>
+        <p class="ds-lesson"><span>Самый дорогой IT-провал в истории госсектора</span>Нельзя применять один жизненный цикл разработки к проекту с таким длинным жизненным циклом управления. Проект жил 8 лет, а технологии внутри него устаревали каждые 2.</p>
+      </article>
+
+      <article class="dossier rv" style="--d:90ms">
+        <div class="ds-head"><h3>Boeing 737 MAX · MCAS</h3><span class="ds-tag">2011—2019 · США</span></div>
+        <dl class="ds-meta">
+          <div><dt>Погибших</dt><dd class="t-red">346</dd></div>
+          <div><dt>Grounding</dt><dd>20 месяцев</dd></div>
+          <div><dt>Убытки</dt><dd class="t-red">$20+ млрд</dd></div>
+          <div><dt>Датчик AoA</dt><dd class="t-red">один</dd></div>
+        </dl>
+        <div class="ds-body">
+          <p>2011-й. Ответ на Airbus A320neo: не делать новый самолёт (10 лет, $10+ млрд), а модернизировать 737 новыми двигателями. Двигатели больше и висят выше → на больших углах атаки самолёт клюёт носом → нужна компенсация → <strong>MCAS</strong>, функция, автоматически опускающая нос.</p>
+          <ul>
+            <li><b>Цикл разработки:</b> функция вшита в существующую Speed Trim System, протестирована в симуляторе, где один датчик давал правильные данные. Обучение пилотов не обновлено: «MCAS работает в нештатных ситуациях, пилотам о нём знать не нужно». Сертификация FAA ускорена.</li>
+            <li><b>Цикл управления:</b> «мы в фазе исполнения, поставляем самолёты, всё по графику» — до 29 октября 2018 (Lion Air JT610, 189 погибших) и 10 марта 2019 (Ethiopian Airlines 302, 157).</li>
+          </ul>
+        </div>
+        <p class="ds-lesson"><span>Где здесь два цикла</span>Никто не спросил: <strong>в каком жизненном цикле находится сама система безопасности полётов?</strong> Она была в цикле «эксплуатация 50-летних протоколов», а MCAS вшили как в цикле «стартап, fast-follow». Два цикла должны совпадать по зрелости: нельзя вшивать экспериментальную функцию туда, где ошибка стоит жизни, и нельзя вести 8-летний проект управления с 6-месячным горизонтом разработки.</p>
+      </article>
+    </div>
+
+    <div class="quote rv">
+      <p>Когда спрашивают «какой у вас жизненный цикл?» — уточняй: управления или разработки?</p>
+      <div class="who">Что ты должен вынести · блок 03</div>
+    </div>
+
+    <div class="prac rv">
+      <span class="tagline">Практика</span>
+      <ol>
+        <li>В какой фазе <strong>управления</strong> я нахожусь? Инициация / планирование / исполнение / мониторинг / закрытие.</li>
+        <li>По какому <strong>циклу разработки</strong> идёт работа? Waterfall / итерации / инкременты / Agile / DevOps.</li>
+        <li>Совпадают ли они по длительности и зрелости? Если нет — вот твой будущий риск.</li>
+      </ol>
+      <p class="fine">NHS был waterfall-управление + waterfall-разработка — и умер. Boeing был agile-управление (спешим, поставляем, дорабатываем итеративно) + waterfall-разработка критической системы — и убил 346 человек.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= S4 ================= -->
+<section class="sec" id="s4">
+  <div class="wrap">
+    <div class="ch-head rv">
+      <div class="ch-num">04</div>
+      <div>
+        <p class="eyebrow">Этапы · Software Development Life Cycle</p>
+        <h2 class="h-lg"><span class="ln"><i>SDLC: почему этап, на котором</i></span><span class="ln"><i style="--d:90ms">ты не был, убьёт проект</i></span></h2>
+        <p class="ch-sub">Аналогия: стройка дома — котлован, фундамент, коробка, крыша, отделка, сдача, ремонт. Главный закон: цена ошибки растёт экспоненциально. Баг в требованиях стоит 1 день. Тот же баг на проде — неделю и репутацию.</p>
+      </div>
+    </div>
+
+    <div class="rv">
+      <div class="stages" id="stages" role="tablist" aria-label="Этапы SDLC"></div>
+      <div class="curve">
+        <svg viewBox="0 0 1000 210" role="img" aria-label="Стоимость исправления ошибки по этапам">
+          <g id="cvBars"></g>
+          <path class="cv-line" id="cvLine" d=""></path>
+          <g id="cvTexts"></g>
+        </svg>
+        <p class="mono" style="margin:6px 0 0">← стоимость исправить одну и ту же ошибку, ×1 →</p>
+      </div>
+      <div class="detail">
+        <div class="dt-grid" id="dtGrid"></div>
+        <div class="dt-case" id="dtCase"></div>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-top:clamp(34px,5vw,58px)">
+      <div class="rv">
+        <span class="tagline">Четыре разных «готово»</span>
+        <h3 class="h-md" style="margin-bottom:16px">Одно слово — четыре смысла</h3>
+        <table class="tbl">
+          <thead><tr><th>Роль</th><th>Что для неё «готово»</th></tr></thead>
+          <tbody>
+            <tr><td class="lead">Аналитик</td><td>Документ подписан</td></tr>
+            <tr><td class="lead">Разработчик</td><td>Код в мерж-реквесте</td></tr>
+            <tr><td class="lead">Тестировщик</td><td>Тест-кейсы пройдены</td></tr>
+            <tr><td class="lead">Заказчик</td><td>«Работает, как я хотел»</td></tr>
+          </tbody>
+        </table>
+        <p class="note" style="margin-top:18px">Половина конфликтов в IT — оттого, что люди используют одно слово, имея в виду разные вещи. Договорись о критерии <strong>до</strong> начала работы.</p>
+      </div>
+
+      <div>
+        <article class="dossier rv">
+          <div class="ds-head"><h3>Mars Climate Orbiter</h3><span class="ds-tag">Сентябрь 1999 · NASA / Lockheed Martin</span></div>
+          <dl class="ds-meta">
+            <div><dt>Перелёт</dt><dd>10 месяцев</dd></div>
+            <div><dt>Высота входа</dt><dd class="t-red">57 км</dd></div>
+            <div><dt>Расчёт</dt><dd>85—110 км</dd></div>
+            <div><dt>Цена</dt><dd class="t-red">$125—327,6 млн</dd></div>
+          </dl>
+          <div class="ds-body">
+            <p>Каждая команда тестировала <strong>свой</strong> модуль и сдала его идеально. Lockheed Martin передавала данные в <strong>ньютон-секундах</strong>, JPL NASA обрабатывала их в <strong>фунт-секундах</strong>. Зонд вошёл в атмосферу Марса слишком низко и сгорел.</p>
+          </div>
+          <p class="ds-lesson"><span>Провал на стыке разработка ↔ интеграция</span>SDLC — не конвейер, где каждый делает свой кусок и передаёт дальше. Это цепочка, где <strong>каждый стык — потенциальная могила</strong>. Твоя работа как менеджера — стоять на стыках, а не внутри этапов.</p>
+        </article>
+
+        <article class="dossier rv" style="--d:90ms">
+          <div class="ds-head"><h3>Target</h3><span class="ds-tag">2013 · этап сопровождения</span></div>
+          <dl class="ds-meta">
+            <div><dt>Карт украдено</dt><dd class="t-red">110 млн</dd></div>
+            <div><dt>Через кого</dt><dd class="t-red">подрядчик HVAC</dd></div>
+            <div><dt>Доступ</dt><dd>к сети для мониторинга кондиционеров</dd></div>
+            <div><dt>Этап</dt><dd>сопровождение</dd></div>
+          </dl>
+          <div class="ds-body">
+            <p>Код был написан, протестирован, развёрнут. Но <strong>доступы</strong> раздавались без контроля, потому что «это же просто вентиляция». Хакеры взломали подрядчика → попали в сеть Target → добрались до платёжной системы.</p>
+          </div>
+          <p class="ds-lesson"><span>Урок</span>SDLC не заканчивается на развёртывании. <strong>Сопровождение — тоже этап</strong>, и на нём умирает больше проектов, чем на всех предыдущих вместе.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>SDLC — это карта, по которой ты ищешь причину, а не симптом.</p>
+      <div class="who">Что ты должен вынести · блок 04</div>
+    </div>
+    <p class="lede rv">Если болит на тестировании — ты неправильно провёл анализ требований. Если болит на проде — ты неправильно провёл тестирование. Если болит через год — ты неправильно раздал доступы на сопровождении. И запомни формулировку для Boeing-урока: <strong>этап тестирования — это не «проверить, что работает». Это проверить, что не работает в худшем случае.</strong> Если ты тестируешь только happy path, ты не тестируешь — ты имитируешь.</p>
+
+    <div class="prac rv">
+      <span class="tagline">Практика</span>
+      <p style="margin:0">Нарисуй SDLC своего проекта в 7 этапах. На каждом напиши:</p>
+      <ol>
+        <li>Что считается «готово» на выходе?</li>
+        <li>Кто принимает?</li>
+        <li>Где граница со следующим этапом?</li>
+        <li><strong>Кто отвечает за стык?</strong></li>
+      </ol>
+      <p class="fine">Если на пункте 4 у тебя пусто — вот твой будущий Knight Capital. В Knight Capital не было человека, чья работа — сказать: «стоп, мы обновили 7 из 8, где восьмой?» Это не вина разработчика. Это <strong>дыра в процессе</strong>, и за неё отвечает менеджер.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= S5 ================= -->
+<section class="sec sec--paper" id="s5">
+  <div class="wrap">
+    <div class="ch-head rv">
+      <div class="ch-num">05</div>
+      <div>
+        <p class="eyebrow">Инструменты · это не конкуренты, это этажи</p>
+        <h2 class="h-lg"><span class="ln"><i>PMBOK, PRINCE2, ГОСТ, Agile</i></span></h2>
+        <p class="ch-sub">Почему метод не спасает от идиотов — и от чего он всё-таки спасает.</p>
+      </div>
+    </div>
+
+    <div class="floors rv">
+      <div class="floor"><span class="fl-n">PMBOK</span><span class="fl-d">Свод знаний: что вообще бывает. 49 процессов в 5 группах, 10 областей знаний — адаптируй под проект (tailoring).</span><span class="fl-a">Медицинский справочник</span></div>
+      <div class="floor"><span class="fl-n">PRINCE2</span><span class="fl-d">Метод: как конкретно делать шаг за шагом. Project Board, Stage Boundaries, Business Case, обязательная оценка жизнеспособности на каждом этапе.</span><span class="fl-a">Протокол операции</span></div>
+      <div class="floor"><span class="fl-n">ГОСТ 34 / ЕСПД</span><span class="fl-d">Российские требования к оформлению, прежде всего к техническому заданию. 34.601-90 — стадии АС, 34.602-89/2020 — ТЗ на АС, 19.201-78 — ТЗ на программу.</span><span class="fl-a">СанПиН</span></div>
+      <div class="floor"><span class="fl-n">Agile</span><span class="fl-d">Не стандарт, а ценности и принципы. Scrum и Kanban — лишь способы их реализовать внутри команды.</span><span class="fl-a">Философия питания</span></div>
+    </div>
+
+    <div class="lab rv" style="margin-top:clamp(30px,4vw,52px)">
+      <p class="eyebrow" style="margin-bottom:8px">Подбор под среду</p>
+      <h3 class="h-sm" style="margin-bottom:6px">Твой набор стандартов определяется не модой, а средой</h3>
+      <div class="envpick" id="envPick"></div>
+      <div class="envout" id="envOut"></div>
+    </div>
+
+    <div class="grid2" style="margin-top:clamp(34px,5vw,58px)">
+      <article class="dossier rv">
+        <div class="ds-head"><h3>Lidl · SAP</h3><span class="ds-tag">2011—2018 · Германия</span></div>
+        <dl class="ds-meta">
+          <div><dt>Списано</dt><dd class="t-red">€500 млн</dd></div>
+          <div><dt>Длительность</dt><dd>7 лет</dd></div>
+          <div><dt>Подход</dt><dd>PMBOK, 49 процессов</dd></div>
+          <div><dt>Касс на SAP</dt><dd class="t-red">0</dd></div>
+        </dl>
+        <div class="ds-body">
+          <p>Крупнейший дискаунтер Европы решает заменить старую ERP на SAP. Были процессы, области знаний, пять групп — всё по PMBOK. И семь лет проекта.</p>
+          <ul>
+            <li><b>Объём:</b> Lidl отказалась менять свои бизнес-процессы под SAP. SAP работает по <b>стандартным</b> процессам закупок, логистики, финансов. Lidl хотела «как у нас, но в SAP». Это как просить Mercedes ехать по рельсам.</li>
+            <li><b>Сроки:</b> 7 лет = 14 поколений технологий. К моменту готовности модуль уже устарел.</li>
+            <li><b>Качество:</b> каждый новый модуль ломал предыдущие, интеграция не работала, склады останавливались.</li>
+            <li><b>Январь 2018:</b> проект официально закрыт, компания вернулась к старой системе.</li>
+          </ul>
+        </div>
+        <p class="ds-lesson"><span>PMBOK не виноват</span>PMBOK — справочник: «вот процессы, адаптируй». Но Lidl <strong>адаптировала не процессы под проект, а проект под процессы</strong>. Классическая ошибка: принять карту за территорию. PRINCE2, возможно, спас бы: его Project Board обязан был бы на втором году остановиться и спросить «а это вообще ещё жизнеспособно?». <strong>Метод не спасает. Спасает дисциплина спрашивать «зачем мы это делаем» каждые 3 месяца.</strong></p>
+      </article>
+
+      <div>
+        <article class="dossier rv" style="--d:80ms">
+          <div class="ds-head"><h3>NHS · по всем правилам PRINCE2</h3><span class="ds-tag">когда метод есть, а толку нет</span></div>
+          <div class="ds-body">
+            <p>Британское правительство обязало все госпроекты использовать PRINCE2. NPfIT формально вёлся по PRINCE2. И всё равно провалился на £12 млрд.</p>
+            <ul class="ck">
+              <li><span>✓</span> Project Board <i>формально</i></li>
+              <li><span>✓</span> Stage Boundaries <i>проходились</i></li>
+              <li><span>✓</span> Business Case <i>писался под уже принятое политическое решение</i></li>
+              <li><span>✓</span> Risk Register <i>заполнен, риски не закрывались</i></li>
+              <li><span>✓</span> Quality Management <i>бумажно</i></li>
+            </ul>
+          </div>
+          <p class="ds-lesson"><span>Урок</span>Стандарт — это <strong>скелет</strong>. Мясо — это люди и их решения. NHS умер не от отсутствия PRINCE2, а оттого, что <strong>политика оказалась важнее методологии</strong>.</p>
+        </article>
+
+        <article class="dossier rv" style="--d:150ms">
+          <div class="ds-head"><h3>ЕГАИС и «Честный знак»</h3><span class="ds-tag">ГОСТ 34 в работе</span></div>
+          <div class="ds-body">
+            <p>Обе системы внедрялись <strong>по стадиям ГОСТ 34</strong>: формирование требований → концепция → ТЗ → эскизный проект → техпроект → монтаж → ввод в действие.</p>
+            <p>Сроки многократно сдвигались: интеграция ЕГАИС и «Честного знака» для пива планировалась на январь 2026 и была перенесена для дополнительной подготовки. Маркировка вводится поэтапно: 1 марта — регистрация, 1 июня — старт маркировки, 1 декабря — ЭДО.</p>
+          </div>
+          <p class="ds-lesson"><span>Почему это важно для тебя</span>В госсекторе и на больших контрактах (банк, телеком, оборонка) <strong>без грамотного ТЗ по ГОСТ 34.602 проект просто не примут</strong>. Ты можешь быть гением Agile, но если работаешь с ФНС или РЖД — ты пишешь ТЗ по ГОСТу, и точка. А в стартапе ГОСТ не нужен вообще.</p>
+        </article>
+      </div>
+    </div>
+
+    <article class="dossier rv" style="margin-top:26px">
+      <div class="ds-head"><h3>Альфа-Банк · Agile внутри waterfall-контура</h3><span class="ds-tag">2017—2020</span></div>
+      <div class="ds-body" style="padding-bottom:0">
+        <p>Из «банка с waterfall-проектами» в «банк с продуктовыми командами». Взгляд честнее любого учебника — потому что виден потолок.</p>
+      </div>
+      <div class="cmp">
+        <div class="yes"><h4>Что изменилось</h4><ul>
+          <li>Вместо проектных офисов — продуктовые команды с PO, разработчиками, тестировщиками, аналитиками</li>
+          <li>Вместо годовых планов — двухнедельные спринты</li>
+          <li>Вместо «продукт за 9 месяцев» — <strong>«продукт за 5 дней»</strong></li>
+          <li>Time-to-Market сократился благодаря итеративной разработке</li>
+        </ul></div>
+        <div class="no"><h4>Что НЕ изменилось</h4><ul>
+          <li>Бюджетирование осталось годовым</li>
+          <li>Отчётность перед ЦБ осталась waterfall</li>
+          <li>Юридические согласования остались бюрократическими</li>
+          <li>Регуляторный контур не трансформируется agile-ритуалами</li>
+        </ul></div>
+      </div>
+      <p class="ds-lesson"><span>«Библиотека Agile» — и это нормально</span>Ты берёшь Scrum для разработки, но остаёшься в PMBOK для бюджета и в ГОСТ для отчётности. <strong>PMBOK 7 прямо говорит: PM не должен быть заложником одного подхода.</strong></p>
+    </article>
+
+    <div class="quote rv">
+      <p>Стандарты — не религии.<br>Это инструменты под среду.</p>
+      <div class="who">Что ты должен вынести · блок 05</div>
+    </div>
+
+    <div class="prac rv">
+      <span class="tagline">Практика</span>
+      <p style="margin:0">Определи среду, в которой будешь работать (учёба, стартап, банк, госконтракт, аутсорс). Выпиши:</p>
+      <ol>
+        <li>Какой стандарт здесь <strong>обязателен</strong>?</li>
+        <li>Какой здесь <strong>уместен</strong>?</li>
+        <li>Какой здесь <strong>бесполезен</strong>?</li>
+      </ol>
+      <p class="fine">Если не можешь ответить — ты пока не знаешь, где играешь. В реальном большом проекте всегда гибрид всего вышеперечисленного.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= S6 ================= -->
+<section class="sec sec--ink2" id="s6">
+  <div class="wrap">
+    <div class="ch-head rv">
+      <div class="ch-num">06</div>
+      <div>
+        <p class="eyebrow">Навыки · PMI Talent Triangle</p>
+        <h2 class="h-lg"><span class="ln"><i>Почему гениальные инженеры</i></span><span class="ln"><i style="--d:90ms">проваливают проекты</i></span></h2>
+        <p class="ch-sub">Три вершины навыков надо развивать сбалансированно. Перекос — это не «сильная сторона», это уязвимость с властью.</p>
+      </div>
+    </div>
+
+    <div class="lab rv">
+      <div class="radar-wrap">
+        <div>
+          <svg viewBox="0 0 340 300" class="tri-svg" id="radar" role="img" aria-label="Рдар Talent Triangle">
+            <polygon class="rd-grid" points="170,40 290,250 50,250"></polygon>
+            <polygon class="rd-grid" points="170,110 230,214 110,214"></polygon>
+            <line class="rd-axis" x1="170" y1="180" x2="170" y2="40"></line>
+            <line class="rd-axis" x1="170" y1="180" x2="290" y2="250"></line>
+            <line class="rd-axis" x1="170" y1="180" x2="50" y2="250"></line>
+            <polygon class="rd-poly" id="rdPoly" points="170,40 290,250 50,250"></polygon>
+            <g class="rd-t"><text x="170" y="24">WAYS OF WORKING</text><text class="rd-v" id="rdV1" x="170" y="24" dy="20">7</text></g>
+            <g class="rd-t"><text x="292" y="272">POWER SKILLS</text><text class="rd-v" id="rdV2" x="292" y="272" dy="20">3</text></g>
+            <g class="rd-t"><text x="46" y="272">BUSINESS ACUMEN</text><text class="rd-v" id="rdV3" x="46" y="272" dy="20">4</text></g>
+          </svg>
+        </div>
+        <div>
+          <p class="eyebrow" style="margin-bottom:6px">Оцени себя честно · 1—10</p>
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Ways of Working</span><span class="ctrl-val" id="tv1">7</span></div>
+            <input type="range" id="tr1" min="1" max="10" value="7" style="--acc:var(--blue)" aria-label="Ways of Working">
+            <p class="mono" style="margin:2px 0 0">Техника: Scrum, Kanban, оценка, риски</p>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Power Skills</span><span class="ctrl-val" id="tv2">3</span></div>
+            <input type="range" id="tr2" min="1" max="10" value="3" style="--acc:var(--green)" aria-label="Power Skills">
+            <p class="mono" style="margin:2px 0 0">Люди: коммуникация, эмпатия, переговоры</p>
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><span class="ctrl-name">Business Acumen</span><span class="ctrl-val" id="tv3">4</span></div>
+            <input type="range" id="tr3" min="1" max="10" value="4" style="--acc:var(--amber)" aria-label="Business Acumen">
+            <p class="mono" style="margin:2px 0 0">Бизнес: деньги, стратегия, почему это выгодно</p>
+          </div>
+          <div class="verdict" id="talVerdict"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bigstat rv">
+      <div><div class="v t-green"><span data-count="73.8" data-dec="1">0</span>%</div><div class="k">средняя результативность проектов по PMI Pulse of the Profession</div></div>
+      <div><div class="v t-red"><span data-count="31">0</span>%</div><div class="k">провал среди <b>сложных</b> проектов — вдвое выше обычных 12—13%</div></div>
+      <div><div class="v t-amber">≈1 из 4</div><div class="k">проектов не достигает бизнес-целей. Business acumen PMI Pulse 2025 называет критическим дифференциатором</div></div>
+    </div>
+
+    <article class="dossier rv" style="margin-top:26px">
+      <div class="ds-head"><h3>Boeing 737 MAX · все три вершины были кривые</h3><span class="ds-tag">компания с сотнями лет истории</span></div>
+      <div class="ds-body">
+        <ul>
+          <li><b>Business Acumen.</b> Решение модернизировать 737 вместо создания нового самолёта было <b>финансовым, не инженерным</b>. A320neo уходил на рынок, Boeing терял заказы, совет директоров требовал квартальный результат. MCAS — это кост-сейвинг: дешевле добавить софт, чем переделывать аэродинамику. Инженеры знали, что это риск. Бизнес-логика победила.</li>
+          <li><b>Power Skills.</b> Boeing <b>не сообщил пилотам</b> о существовании MCAS, не обновил мануалы, не обучил. Признать новую систему = признать, что самолёт отличается от предыдущих 737 = дорогостоящее переобучение пилотов всего мира. Boeing выбрал молчание. Провал коммуникации на уровне корпорации.</li>
+          <li><b>Ways of Working.</b> Даже здесь: MCAS полагался на <b>один датчик угла атаки</b>, тестирование не покрыло сценарий отказа. Это не «бизнес» и не «люди» — это техническая халатность, провал первой вершины.</li>
+        </ul>
+      </div>
+      <p class="ds-lesson"><span>Итог</span>346 погибших, $20+ млрд убытков, 20 месяцев grounding, уголовные дела, потеря репутации столетней компании. <strong>Если у тебя сильна одна вершина и слабы две другие — ты не менеджер. Ты специалист с властью, и эта власть убивает.</strong></p>
+    </article>
+
+    <div class="grid2 rv" style="margin-top:26px">
+      <div>
+        <span class="tagline">Третья история · их сотни</span>
+        <h3 class="h-md" style="margin-bottom:14px">Техлид, который провалился</h3>
+        <p>Лучший разработчик в команде получает повышение до тимлида. Он знает код лучше всех, знает архитектуру, чинит баг за 5 минут.</p>
+        <p>А потом приходит на встречу с заказчиком и говорит: «Технически это невозможно, потому что у нас микросервисная архитектура и тут нужен рефакторинг модуля X».</p>
+        <p class="t-red"><strong>Заказчик слышит: «Нет». Проект встаёт.</strong></p>
+      </div>
+      <div>
+        <p class="lede" style="font-size:16.5px">Ways of Working — максимум. Power Skills — ноль: он не умеет переводить технический язык на бизнесовый. Business Acumen — ноль: он не понимает, что для заказчика «невозможно» = «мы потеряем клиента».</p>
+        <p class="note" style="margin-top:18px"><strong>Решение:</strong> не увольнять. Дать коуча по power skills и бизнес-аналитика в пару. Triangle должен быть равносторонним.</p>
+      </div>
+    </div>
+
+    <div class="quote rv">
+      <p>Talent Triangle — это зеркало,<br>в котором видно, чего тебе не хватает.</p>
+      <div class="who">Что ты должен вынести · блок 06</div>
+    </div>
+
+    <div class="prac rv">
+      <span class="tagline">Практика</span>
+      <p style="margin:0">Ты сейчас качаешь <strong>Ways of Working</strong> — Waterfall, Agile, MVP, всё это техники. Значит, с высокой вероятностью у тебя провал в <strong>Power Skills</strong> и <strong>Business Acumen</strong> — ровно те две вершины, из-за которых техничные люди годами сидят на позиции «передвигатель задач», а не менеджер проектов.</p>
+      <ol>
+        <li>Самая низкая оценка — твоя следующая точка роста. <strong>Не самая высокая.</strong></li>
+        <li>Придумай одно действие на неделю для этой вершины: трудный разговор, разбор юнит-экономики продукта, фасилитация конфликта.</li>
+        <li>Запиши, как ты поймёшь, что оно сработало.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ================= S7 ================= -->
+<section class="sec sec--paper" id="s7">
+  <div class="wrap">
+    <div class="ch-head rv">
+      <div class="ch-num">07</div>
+      <div>
+        <p class="eyebrow">Люди · кто на самом деле решает</p>
+        <h2 class="h-lg"><span class="ln"><i>Роли в IT-проекте</i></span></h2>
+        <p class="ch-sub">В чистом Scrum ролей три: Product Owner, Команда разработки, Scrum Master. В реальности — десяток. И главная путаница: PO ≠ PM ≠ Продакт ≠ Спонсор ≠ Стейкхолдер.</p>
+      </div>
+    </div>
+
+    <div class="lab rv">
+      <p class="eyebrow" style="margin-bottom:8px">Пять компаний — пять моделей ответственности</p>
+      <div class="envpick" id="rolePick" style="margin-bottom:22px"></div>
+      <h3 class="h-md" id="roleTitle" style="margin-bottom:6px"></h3>
+      <p class="mono" id="roleTag"></p>
+      <div class="rolemap" id="roleMap"></div>
+      <p class="roloverdict" id="roleVerdict"></p>
+    </div>
+
+    <div class="grid2" style="margin-top:clamp(34px,5vw,58px)">
+      <div class="rv">
+        <span class="tagline">Три различия, которые обязаны стать рефлексом</span>
+        <table class="tbl">
+          <tbody>
+            <tr><td class="lead" style="width:34%">PO ≠ PM</td><td>PO отвечает на «<strong>что</strong> и <strong>зачем</strong>» — бэклог, приоритеты, ценность. PM — на «<strong>как, когда и кем</strong>» — сроки, ресурсы, риски.</td></tr>
+            <tr><td class="lead">Продакт ≠ Проджект</td><td>Продакт думает о продукте <strong>бесконечно долго</strong> (это будущая операция), проджект — о конкретном временном отрезке.</td></tr>
+            <tr><td class="lead">Стейкхолдер ≠ Заказчик</td><td>Заказчик — тот, кто платит. Стейкхолдер — <strong>любой</strong>, кто влияет или зависит: бухгалтерия, юристы, поддержка, пользователи, которые тебя ненавидят.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="rv" style="--d:80ms">
+        <span class="tagline">Dropbox · роль PO в действии</span>
+        <h3 class="h-md" style="margin-bottom:14px">Видео вместо продукта</h3>
+        <p>2007. Дрю Хьюстон хочет проверить: нужен ли людям облачный синтезатор файлов? Вместо того чтобы писать продукт, он записывает <strong>3-минутное видео</strong> и выкладывает на Hacker News 5 апреля 2007-го.</p>
+        <div class="kpi"><div><div class="v t-green">75 000</div><div class="k">регистраций за ночь.<br>Продукта ещё не существовало</div></div></div>
+        <p class="note">Он выступил как PO: решил, <strong>что</strong> проверять (спрос на функцию), и сделал это минимальными средствами. Ни кода, ни команды, ни ТЗ. PO — это не «человек, который расставляет задачи в Jira». PO — это человек, который отвечает на вопрос «что мы делаем и зачем». Иногда ответ — видео на 3 минуты.</p>
+      </div>
+    </div>
+
+    <hr class="hr">
+
+    <div class="rv">
+      <span class="tagline">Практика · схема ролей</span>
+      <h3 class="h-md" style="margin-bottom:18px">Семь вопросов о твоём проекте</h3>
+      <table class="tbl">
+        <thead><tr><th style="width:52%">Вопрос</th><th>Ответ по умолчанию</th></tr></thead>
+        <tbody>
+          <tr><td>Кто даёт деньги и может остановить?</td><td class="lead">Спонсор</td></tr>
+          <tr><td>Кто решает, что делаем первым?</td><td class="lead">Product Owner</td></tr>
+          <tr><td>Кто отвечает за сроки и риски?</td><td class="lead">Project Manager</td></tr>
+          <tr><td>Кто отвечает за людей?</td><td class="lead">Team Lead / Chapter Lead</td></tr>
+          <tr><td>Кто принимает «готово»?</td><td class="lead">Заказчик / PO</td></tr>
+          <tr><td>Кто пострадает, если сломается?</td><td class="lead">Поддержка, продажи, пользователи</td></tr>
+          <tr style="background:rgba(255,69,58,.06)"><td class="lead t-red">Кто не указан, но должен быть?</td><td class="t-red">← самый важный вопрос</td></tr>
+        </tbody>
+      </table>
+
+      <div class="revealbox" id="missBox">
+        <button type="button" id="missBtn">Показать, кто обычно теряется</button>
+        <div class="out">
+          <p style="margin-bottom:12px">Последняя строка — золото. Обычно там обнаруживается юрист, безопасник, бухгалтер или «тот самый влиятельный человек, которого никто не назвал».</p>
+          <div class="chips">
+            <span class="chip r">Boeing → пилоты</span>
+            <span class="chip r">Knight Capital → операторы дата-центра</span>
+            <span class="chip r">Target → подрядчик по вентиляции</span>
+            <span class="chip r">NHS → врачи</span>
+          </div>
+          <p class="note" style="margin-top:14px">Если ты не можешь назвать <strong>одного человека</strong>, который отвечает за результат — у тебя нет проекта. У тебя есть бюрократический процесс, и он тебя убьёт.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ИТОГ ================= -->
+<section class="sec" id="itog">
+  <div class="wrap">
+    <div class="head-split rv">
+      <div>
+        <p class="eyebrow">Итог · семь шагов одной операционной системы</p>
+        <h2 class="h-lg"><span class="ln"><i>Как S0 складывается</i></span><span class="ln"><i style="--d:90ms">в одну картину</i></span></h2>
+      </div>
+      <p class="lede">Сложи все истории в одну хронологию — и получишь чек-лист, который прогоняется в голове за две минуты перед любым проектом. Следующие этапы нанизываются на него, как бусины.</p>
+    </div>
+
+    <div class="stack">
+      <article class="stack-card" style="--i:0"><div class="sk-n">01</div><div><h3>Определи объект</h3><p>Это проект, операция или продукт? Если не можешь сказать за секунду — ты управляешь не тем объектом.</p></div><div><p class="ref"><b>WhatsApp</b> — все три одновременно.<br><b>Knight Capital</b> — проект прошёл, операция убила.</p></div></article>
+      <article class="stack-card" style="--i:1"><div class="sk-n">02</div><div><h3>Нарисуй треугольник</h3><p>Что фиксировано, что подвижно? Легальная причина сказать «нет» — не «нельзя», а «вот что мы двигаем».</p></div><div><p class="ref"><b>Healthcare.gov</b> — сроки зафиксированы законом, качество упало.<br><b>Cyberpunk 2077</b> — хотели удержать всё, рухнуло качество.</p></div></article>
+      <article class="stack-card" style="--i:2"><div class="sk-n">03</div><div><h3>Раздели два цикла</h3><p>Управления и разработки. Они должны совпадать по длительности и зрелости — иначе проект переживёт собственные технологии.</p></div><div><p class="ref"><b>NHS</b> — 8 лет управления, 2 года актуальности → £12 млрд в мусор.<br><b>Boeing</b> — agile-управление + waterfall-безопасность.</p></div></article>
+      <article class="stack-card" style="--i:3"><div class="sk-n">04</div><div><h3>Пройдись по стыкам SDLC</h3><p>Баги живут не внутри этапов, а на границах между ними. Твоя работа — стоять на стыках.</p></div><div><p class="ref"><b>Knight Capital</b> — тестирование ↔ деплой.<br><b>Mars Orbiter</b> — разработка ↔ интеграция.</p></div></article>
+      <article class="stack-card" style="--i:4"><div class="sk-n">05</div><div><h3>Выбери стандарт под среду</h3><p>Не под моду. Стартап — Agile. Госконтракт — ГОСТ 34 и ТЗ. Консалтинг — PMBOK + tailoring. Реальный большой проект — гибрид.</p></div><div><p class="ref"><b>Lidl</b> — PMBOK не спас.<br><b>NHS</b> — PRINCE2 не спас.<br><b>Альфа</b> — Agile внутри, waterfall снаружи.</p></div></article>
+      <article class="stack-card" style="--i:5"><div class="sk-n">06</div><div><h3>Оцени свой triangle честно</h3><p>Чего не хватает? Точка роста — самая низкая вершина, а не самая высокая.</p></div><div><p class="ref"><b>Boeing</b> — инженерия есть, бизнес и люди нет → 346 погибших.<br><b>Техлид</b> — техника 10, переговоры 0 → вставший проект.</p></div></article>
+      <article class="stack-card" style="--i:6"><div class="sk-n">07</div><div><h3>Назови роли и найди недостающего</h3><p>Кто здесь вообще решает — и кого мы забыли назвать?</p></div><div><p class="ref"><b>Spotify</b> — squads без менеджеров проектов.<br><b>Amazon</b> — single-threaded leader.<br><b>Boeing</b> — не было PO у MCAS.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПЛАН ================= -->
+<section class="sec sec--paper" id="plan">
+  <div class="wrap">
+    <div class="head-split rv">
+      <div>
+        <p class="eyebrow">Домашний план на S0 · 2—3 дня</p>
+        <h2 class="h-lg"><span class="ln"><i>Два артефакта</i></span></h2>
+      </div>
+      <div class="progring">
+        <svg viewBox="0 0 78 78" aria-hidden="true"><circle class="bgc" cx="39" cy="39" r="34"></circle><circle class="fgc" id="planRing" cx="39" cy="39" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6"></circle></svg>
+        <div><div class="pv" id="planPct">0%</div><div class="pk">план выполнен<br><span id="planCnt">0 / 9</span></div></div>
+      </div>
+    </div>
+
+    <div class="plan" id="planGrid">
+      <div class="day rv">
+        <div class="dh"><span class="dn">День 1</span><span class="dart">Глоссарий</span></div>
+        <p>Читаешь разбор ещё раз и выписываешь <strong>свои</strong> определения семи терминов. Смотришь два видео: Healthcare.gov documentary и разбор Knight Capital (15—20 минут каждое).</p>
+        <label class="lbl"><input type="checkbox" data-k="p1"><span class="box"></span><span class="ltx">Своими словами: проект, операция, продукт</span></label>
+        <label class="lbl"><input type="checkbox" data-k="p2"><span class="box"></span><span class="ltx">Своими словами: треугольник, 2 цикла, SDLC, стандарты, triangle, роли</span></label>
+        <label class="lbl"><input type="checkbox" data-k="p3"><span class="box"></span><span class="ltx">Посмотрел 2 видео и выписал по 1 фразе из каждого</span></label>
+        <p class="mono" style="margin-top:auto">Артефакт: глоссарий на 1 страницу, с <b>твоими</b> примерами</p>
+      </div>
+      <div class="day rv" style="--d:80ms">
+        <div class="dh"><span class="dn">День 2</span><span class="dart">Схема ролей</span></div>
+        <p>Берёшь свой текущий проект — учебный, рабочий или пет — и проходишь по всем семи блокам: что за объект? треугольник? два цикла? SDLC-стыки? стандарт? самооценка? роли?</p>
+        <label class="lbl"><input type="checkbox" data-k="p4"><span class="box"></span><span class="ltx">Заполненная схема ролей на 7 вопросов</span></label>
+        <label class="lbl"><input type="checkbox" data-k="p5"><span class="box"></span><span class="ltx">Список «кто не указан, но должен быть»</span></label>
+        <label class="lbl"><input type="checkbox" data-k="p6"><span class="box"></span><span class="ltx">Отметил слабую вершину Talent Triangle и одно действие на неделю</span></label>
+        <p class="mono" style="margin-top:auto">Артефакт: ролевая карта + список забытых стейкхолдеров</p>
+      </div>
+      <div class="day rv" style="--d:160ms">
+        <div class="dh"><span class="dn">День 3</span><span class="dart">Мини-проверка</span></div>
+        <p>Проходишь мини-проверку из семи вопросов ниже. Если на какой-то не можешь ответить без подглядывания — возвращаешься к соответствующему блоку.</p>
+        <label class="lbl"><input type="checkbox" data-k="p7"><span class="box"></span><span class="ltx">Чек-лист с галочками собран</span></label>
+        <label class="lbl"><input type="checkbox" data-k="p8"><span class="box"></span><span class="ltx">Все 7 вопросов отвечены без подглядывания</span></label>
+        <label class="lbl"><input type="checkbox" data-k="p9"><span class="box"></span><span class="ltx">Записал один реальный риск своего проекта в терминах S0</span></label>
+        <p class="mono" style="margin-top:auto">Артефакт: чек-лист + одна фраза о риске</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ПРОВЕРКА ================= -->
+<section class="sec" id="check">
+  <div class="wrap">
+    <div class="head-split rv">
+      <div>
+        <p class="eyebrow">Мини-проверка</p>
+        <h2 class="h-lg"><span class="ln"><i>Ты закрыл S0, если</i></span><span class="ln"><i style="--d:90ms">можешь без подсказки</i></span></h2>
+      </div>
+      <div class="progring">
+        <svg viewBox="0 0 78 78" aria-hidden="true"><circle class="bgc" cx="39" cy="39" r="34"></circle><circle class="fgc" id="chkRing" cx="39" cy="39" r="34" stroke-dasharray="213.6" stroke-dashoffset="213.6" style="stroke:var(--green)"></circle></svg>
+        <div><div class="pv" id="chkPct">0%</div><div class="pk">S0 закрыт<br><span id="chkCnt">0 / 7</span></div></div>
+      </div>
+    </div>
+    <div id="accList" class="rv"></div>
+  </div>
+</section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="foot">
+  <div class="wrap">
+    <p class="eyebrow rv">Итог одной фразой</p>
+    <h2 class="h-lg foot-h rv">
+      <span class="ln"><i>S0 — это не «введение».</i></span>
+      <span class="ln"><i style="--d:90ms">Это операционная система.</i></span>
+    </h2>
+    <div class="grid2 rv" style="align-items:start">
+      <p class="lede" style="font-size:16.5px">Проект — это дело с концом. Треугольник — это причина сказать «нет». SDLC — карта, где болит. Стандарты — не религии, а инструменты под среду. Talent Triangle — зеркало твоих дыр. А роли — это ответ на вопрос «кто здесь вообще решает, и кого мы забыли назвать».</p>
+      <p class="lede" style="font-size:16.5px">Все следующие этапы — S1 ценность, S2 содержание, S3 оценка, S4 команда — будут нанизываться на неё. Без неё они останутся словами, которые ты пересказываешь, но не применяешь.</p>
+    </div>
+
+    <div class="nextcard rv" style="margin-top:44px">
+      <div>
+        <p class="eyebrow" style="margin-bottom:10px">Следующий модуль</p>
+        <h3 class="h-md" style="margin-bottom:14px">S1 · «Зачем: ценность и запуск»</h3>
+        <ul>
+          <li><b>01</b><span>Airbnb и хлопья: как команда ела cereal, чтобы понять собственный продукт</span></li>
+          <li><b>02</b><span>Dropbox и видео: валидация спроса до строчки кода</span></li>
+          <li><b>03</b><span>NHS и бизнес-кейс, который никто не читал</span></li>
+        </ul>
+        <p class="mono" style="margin-top:18px">Плюс практическое задание на твой проект — в том же формате больших историй.</p>
+      </div>
+      <div class="locked" id="s1lock">
+        <p class="mono" style="margin-bottom:14px">Статус S0</p>
+        <h3 class="h-sm" style="margin-bottom:16px">Отметь план и проверку — и модуль откроется</h3>
+        <button class="cta" id="doneBtn" type="button">Отметить S0 пройденным</button>
+        <p class="ctahint" id="doneHint"></p>
+        <div id="s1ready" style="display:none;margin-top:20px">
+          <p class="t-green" style="font-family:var(--fm);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase">S0 закрыт · два артефакта на месте</p>
+          <p style="color:#c4c8d0;margin-top:10px">Скажи, когда будешь готов — соберу S1 «Зачем: ценность и запуск» в таком же формате.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-bottom">
+      <span>S0 · Язык и рамки · 7 блоков · 12 историй</span>
+      <span id="clock">—</span>
+      <span>Прогресс хранится локально в браузере</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (s,c)=> (c||document).querySelector(s);
+const $$ = (s,c)=> Array.from((c||document).querySelectorAll(s));
+
+/* ---------- REVEAL ---------- */
+const io = new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+$$('.rv').forEach(el=>io.observe(el));
+
+/* ---------- COUNT UP ---------- */
+function countUp(el){
+  const target = parseFloat(el.dataset.count), dec = parseInt(el.dataset.dec||'0',10);
+  if(RM){ el.textContent = target.toFixed(dec); return; }
+  const dur = 1400, t0 = performance.now();
+  (function step(t){
+    const p = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-p,3);
+    el.textContent = (target*e).toFixed(dec);
+    if(p<1) requestAnimationFrame(step);
+  })(t0);
+}
+const ioC = new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){countUp(e.target);ioC.unobserve(e.target);}}),{threshold:.6});
+$$('[data-count]').forEach(el=>ioC.observe(el));
+
+/* ---------- SCROLL PROGRESS ---------- */
+const bar = $('#progBar'), pctEl = $('#navPct');
+let raf=false;
+function onScroll(){
+  if(raf) return; raf=true;
+  requestAnimationFrame(()=>{
+    const h = document.documentElement.scrollHeight - innerHeight;
+    const p = h>0 ? Math.min(1, scrollY/h) : 0;
+    bar.style.width = (p*100).toFixed(2)+'%';
+    pctEl.textContent = Math.round(p*100)+'%';
+    raf=false;
+  });
+}
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+/* ---------- CHAPTER SYNC ---------- */
+const railLinks = $$('.rail a'), navLinks = $$('.nav-links a');
+const secs = ['s1','s2','s3','s4','s5','s6','s7','itog','plan'].map(id=>document.getElementById(id)).filter(Boolean);
+const ioS = new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      const id = e.target.id;
+      railLinks.forEach(a=>a.classList.toggle('on', a.getAttribute('href')==='#'+id));
+      navLinks.forEach(a=>a.classList.toggle('on', a.getAttribute('href')==='#'+id));
+    }
+  });
+},{rootMargin:'-45% 0px -50% 0px'});
+secs.forEach(s=>ioS.observe(s));
+
+/* ---------- HERO SPOTLIGHT ---------- */
+const spot = $('#spot');
+if(spot && !RM && matchMedia('(pointer:fine)').matches){
+  let tx=innerWidth*.28, ty=innerHeight*.3, cx=tx, cy=ty;
+  addEventListener('pointermove', e=>{ tx=e.clientX; ty=e.clientY+scrollY*0; },{passive:true});
+  (function loop(){ cx+=(tx-cx)*.06; cy+=(ty-cy)*.06;
+    spot.style.setProperty('--mx', cx+'px'); spot.style.setProperty('--my', cy+'px');
+    requestAnimationFrame(loop); })();
+}
+
+/* ---------- MARQUEE ---------- */
+const MQ = [
+  ['WhatsApp','$19 млрд','2014','#s1'],
+  ['Knight Capital','45 мин / $440 млн','2012','#s1'],
+  ['Healthcare.gov','6 пользователей в 1-й день','2013','#s2'],
+  ['Cyberpunk 2077','удаление из PS Store','2020','#s2'],
+  ["Hershey's",'−35% акций / $100 млн','1999','#s2'],
+  ['NHS NPfIT','£12 млрд / 10%','2002','#s3'],
+  ['Boeing 737 MAX','346 погибших','2018','#s3'],
+  ['Mars Climate Orbiter','$125 млн / 57 км','1999','#s4'],
+  ['Target','110 млн карт','2013','#s4'],
+  ['Lidl / SAP','€500 млн / 7 лет','2011','#s5'],
+  ['ЕГАИС · Честный знак','перенос сроков','2026','#s5'],
+  ['Альфа-Банк','продукт за 5 дней','2017','#s5'],
+  ['Spotify','squads 6–12','2012','#s7'],
+  ['Amazon','two-pizza / STL','—','#s7'],
+  ['Dropbox','75 000 за ночь','2007','#s7']
+];
+const mqTrack = $('#mqTrack');
+function mqRow(){
+  const r=document.createElement('div'); r.className='mq-row';
+  MQ.forEach(([n,l,d,h])=>{
+    const a=document.createElement('a'); a.className='mq-item'; a.href=h;
+    a.innerHTML='<b>'+n+'</b><s>'+l+'</s><i>'+d+'</i>'; r.appendChild(a);
+  });
+  return r;
+}
+mqTrack.append(mqRow(), mqRow());
+
+/* ---------- RANGE HELPERS ---------- */
+function syncRange(i){
+  const min=+i.min||0, max=+i.max||100, v=+i.value;
+  i.style.setProperty('--p', ((v-min)/(max-min)*100)+'%');
+}
+$$('input[type=range]').forEach(i=>{ syncRange(i); i.addEventListener('input',()=>syncRange(i)); });
+
+/* ---------- S1 MODE SWITCH ---------- */
+const modeBtns = $$('#modes [data-m]'), panes = $$('#modes .mode-pane'), ind = $('#modesInd');
+const order = ['project','operation','product'];
+function setMode(m, scroll){
+  modeBtns.forEach(b=>{const on=b.dataset.m===m;b.classList.toggle('on',on);b.setAttribute('aria-selected',on);});
+  panes.forEach(p=>p.classList.toggle('on', p.dataset.m===m));
+  ind.style.transform = 'translateX('+(order.indexOf(m)*100)+'%)';
+  if(scroll){
+    const t = $('.step[data-mode="'+m+'"]');
+    if(t) window.scrollTo({top:t.getBoundingClientRect().top+scrollY-140, behavior: RM?'auto':'smooth'});
+  }
+}
+modeBtns.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m,true)));
+setMode('project');
+const ioM = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting && e.target.dataset.mode) setMode(e.target.dataset.mode); });
+},{rootMargin:'-45% 0px -45% 0px'});
+$$('.step[data-mode]').forEach(s=>ioM.observe(s));
+
+/* ---------- S2 TRIANGLE LAB ---------- */
+const rS=$('#rScope'), rT=$('#rTime'), rC=$('#rCost');
+const CENT={x:180,y:200}, DIR={s:{x:0,y:-1}, t:{x:-.866,y:.5}, c:{x:.866,y:.5}};
+function pt(dir,r){ return [CENT.x+dir.x*r, CENT.y+dir.y*r]; }
+function triUpdate(){
+  const s=+rS.value, t=+rT.value, c=+rC.value;
+  $('#vScope').textContent=s; $('#vTime').textContent=t; $('#vCost').textContent=c;
+  const rad = v => 62 + v*0.74;
+  const ps=pt(DIR.s,rad(s)), ptc=pt(DIR.t,rad(t)), pc=pt(DIR.c,rad(c));
+  $('#triShape').setAttribute('points', ps+' '+ptc+' '+pc);
+  $('#triRef').setAttribute('points', pt(DIR.s,100)+' '+pt(DIR.t,100)+' '+pt(DIR.c,100));
+  [['spScope',ps,s],['spTime',ptc,t],['spCost',pc,c]].forEach(([id,p,v])=>{
+    const el=$('#'+id); el.setAttribute('x1',CENT.x);el.setAttribute('y1',CENT.y);
+    el.setAttribute('x2',p[0]);el.setAttribute('y2',p[1]);el.setAttribute('stroke-width',(0.6+v/38).toFixed(2));
+  });
+  [['labScope',ps,s,'ОБЪЁМ'],['labTime',ptc,t,'СРОКИ'],['labCost',pc,c,'СТОИМОСТЬ']].forEach(([id,p,v,name])=>{
+    const g=$('#'+id), off = id==='labScope'? -22 : 30;
+    g.setAttribute('transform','translate('+(p[0])+','+(p[1]+off)+')');
+    g.querySelector('text').textContent=name;
+    g.querySelector('.lv').textContent=v;
+  });
+  const q = Math.max(0, Math.min(100, Math.round(c*0.7 + t*0.6 - s*0.6 + 18)));
+  const col = q>=66?'#30d158':(q>=33?'#ff9f0a':'#ff453a');
+  const dot=$('#qDot'); dot.setAttribute('r', 13+q*0.30); dot.setAttribute('fill',col);
+  $('#qTxt').textContent=q;
+  let msg;
+  if(s>75 && t<25) msg='<b>Healthcare.gov.</b> Срок зафиксирован, объём растёт. Качество падает первым — его можно приносить в жертву тихо.';
+  else if(s>75 && c<30) msg='<b>Кранч.</b> Объём без ресурсов = скрытое увеличение стоимости за счёт здоровья людей. Так выходил Cyberpunk 2077.';
+  else if(t<15 && c<35) msg='<b>Худшее окно.</b> Hershey\u2019s выбрала cutover за 4 месяца до Хэллоуина — и потеряла $100 млн заказов.';
+  else if(q>=66) msg='<b>Разговор состоялся.</b> Ограничения управляются, а не только объём. Так организации держат результативность 73.8%.';
+  else msg='<b>Система выбирает за тебя.</b> Ты пытаешься удержать все три вершины — отпустит ту, которую не защищают.';
+  $('#triRead').innerHTML = 'Качество: <b style="color:'+col+'">'+q+'/100</b><br>'+msg;
+}
+[rS,rT,rC].forEach(r=>r.addEventListener('input',()=>{triUpdate(); $$('#triPresets .pbtn').forEach(b=>b.classList.remove('on'));}));
+const PRESETS={hcg:[92,8,55], cyber:[95,15,40], hershey:[78,6,62], ok:[45,62,66]};
+$$('#triPresets .pbtn').forEach(b=>b.addEventListener('click',()=>{
+  const p=PRESETS[b.dataset.p]; rS.value=p[0]; rT.value=p[1]; rC.value=p[2];
+  [rS,rT,rC].forEach(syncRange); triUpdate();
+  $$('#triPresets .pbtn').forEach(x=>x.classList.toggle('on',x===b));
+}));
+triUpdate();
+
+/* iron triangle */
+const ironBtns=$$('.iron button'), ironMsg=$('#ironMsg'), chosen=[];
+const IRON=['Быстро','Качественно','Дёшево'];
+ironBtns.forEach(b=>b.addEventListener('click',()=>{
+  const i=+b.dataset.i, at=chosen.indexOf(i);
+  if(at>-1){ chosen.splice(at,1); b.classList.remove('on'); }
+  else{
+    if(chosen.length===2){
+      const drop=chosen.shift(); ironBtns[drop].classList.remove('on');
+      ironBtns[drop].classList.add('deny'); setTimeout(()=>ironBtns[drop].classList.remove('deny'),460);
+      ironMsg.textContent='Треугольник не прощает: «'+IRON[drop]+'» отпущено.';
+    }
+    chosen.push(i); b.classList.add('on');
+    if(chosen.length<2) ironMsg.textContent='Выбери второе. Третье придётся отпустить самому.';
+  }
+  if(chosen.length!==2) ironMsg.textContent = chosen.length===0 ? 'Ноль выбранных — это тоже выбор: выбор заказчика.' : ironMsg.textContent;
+}));
+
+/* ---------- S3 CYCLE RAILS ---------- */
+const rY=$('#rYears'), rM=$('#rMonths'), trackB=$('#trackB');
+function cycUpdate(){
+  const y=+rY.value, m=+rM.value, months=y*12, n=Math.max(1,Math.min(40,Math.round(months/m)));
+  $('#vYears').textContent = (y%1?y.toFixed(1):y); $('#vMonths').textContent=m;
+  $('#lifeSpan').textContent = (y%1?y.toFixed(1):y)+' лет · '+Math.round(months)+' мес';
+  trackB.innerHTML='';
+  for(let i=0;i<n;i++){
+    const s=document.createElement('span'); s.textContent = n<=10 ? 'итер.'+(i+1) : '';
+    if(i>0 && i*m % 24 === 0) s.classList.add('gen');
+    trackB.appendChild(s);
+  }
+  const gens = Math.max(0, Math.floor(y/2));
+  $('#genLabel').textContent = gens? gens+' смена технологий' : 'технологии не устарели';
+  const ratio = months/m;
+  $('#gapLabel').textContent = 'разрыв ×'+ratio.toFixed(1).replace('.0','')+' · здесь умирают проекты';
+  const v=$('#cycVerdict'); v.className='verdict';
+  if(ratio<=2){ v.innerHTML='<b>Совпадает</b>Управление и разработка живут в одном темпе. Так работает здоровый продуктовый команда: горизонт решений ≈ горизонт поставок.'; }
+  else if(ratio<=6){ v.classList.add('warn'); v.innerHTML='<b>Риск</b>Горизонт управления в '+ratio.toFixed(1).replace('.0','')+' раз длиннее горизонта разработки. Часть решений будет приниматься по данным, которые устарели к моменту исполнения.'; }
+  else { v.classList.add('bad'); v.innerHTML='<b>NHS-сценарий</b>Проект переживёт собственные технологии в '+gens+' раз(а). Управление планирует на '+y+' лет, а актуальна архитектура — '+m+' мес. Именно так £12 млрд превратились в 10% результата.'; }
+}
+[rY,rM].forEach(r=>r.addEventListener('input',()=>{cycUpdate(); $$('#s3 .pbtn').forEach(b=>b.classList.remove('on'));}));
+const CP={nhs:[8,6],boeing:[8,4],healthy:[1.5,3],lidl:[7,6]};
+$$('#s3 .pbtn').forEach(b=>b.addEventListener('click',()=>{
+  const p=CP[b.dataset.c]; rY.value=p[0]; rM.value=p[1]; [rY,rM].forEach(syncRange); cycUpdate();
+  $$('#s3 .pbtn').forEach(x=>x.classList.toggle('on',x===b));
+}));
+cycUpdate();
+
+/* ---------- S4 SDLC ---------- */
+const SDLC=[
+ {n:'Планирование',short:'План',done:'Устав, границы, бюджет и критерий успеха подписаны',who:'Спонсор + PM',seam:'с аналитиком: что вообще считаем успехом',seamWho:'PM',cost:6,
+  cs:'<b>Healthcare.gov:</b> планирование началось с уже сломанной вершины — срок был вписан в закон, и сдвинуть его означало политический скандал.'},
+ {n:'Анализ требований',short:'ТЗ',done:'ТЗ / User Story Map приняты, объём зафиксирован',who:'Аналитик + PO',seam:'с проектировщиком: какие требования вообще реализуемы',seamWho:'Аналитик',cost:11,
+  cs:'<b>Healthcare.gov:</b> объём рос каждые две недели, «нет» не говорил никто. McKinsey ещё в начале 2013 предупреждал: недостаточно времени на тестирование. Не послушали.'},
+ {n:'Проектирование',short:'Арх.',done:'Архитектура и интерфейсы согласованы, стыки описаны языком, а не намёком',who:'Архитектор + техлид',seam:'с разработкой: совпадает ли язык передачи данных',seamWho:'Архитектор',cost:20,
+  cs:'<b>Mars Climate Orbiter:</b> каждая команда спроектировала свой модуль идеально — и передавала данные в разных единицах. Ньютон-секунды против фунт-секунд. $125 млн.'},
+ {n:'Разработка',short:'Код',done:'Код в мёрж-реквесте, пройден code review, мёртвый код удалён',who:'Разработчик + ревьюер',seam:'с тестированием: что именно считать покрытым',seamWho:'Tech lead + QA lead',cost:36,
+  cs:'<b>Knight Capital:</b> функция Power Peg была отключена в 2005-м, но не удалена из кодовой базы. Мёртвый код пережил свой проект на 7 лет — и убил компанию за 45 минут.'},
+ {n:'Тестирование',short:'QA',done:'Тест-кейсы пройдены на ВСЁМ окружении, включая резервное, плюс худшие сценарии',who:'QA + независимый приёмщик',seam:'с развёртыванием: идентично ли протестированное среде',seamWho:'QA + SRE',cost:68,
+  cs:'<b>Knight Capital:</b> проверили 7 серверов из 8 — восьмой считался «резервным» и не был в актуальном списке. <b>Boeing:</b> MCAS тестировали только там, где датчик угла атаки врал — никогда.'},
+ {n:'Развёртывание',short:'Deploy',done:'Все узлы обновлены, факт сверен по реестру, план отката написан',who:'SRE / Ops',seam:'с сопровождением: кто дежурит и что именно смотрит',seamWho:'Ops-lead',cost:124,
+  cs:'<b>Knight Capital, 31 июля, вечер:</b> обновление закинули на все серверы, кроме одного. Никто не заметил. Не было человека, чья работа — сказать: «стоп, 7 из 8, где восьмой?»'},
+ {n:'Сопровождение',short:'Run',done:'SLA держится, доступы пересмотрены, технический долг уплачен',who:'Операционная команда',seam:'с реальностью: кто вообще имеет доступ к системе',seamWho:'Security + Owner',cost:196,
+  cs:'<b>Target 2013:</b> доступ к сети дали подрядчику по вентиляции. Ушли 110 млн карт. На этом этапе умирает больше проектов, чем на всех предыдущих вместе.'}
+];
+const stagesEl=$('#stages'), barsEl=$('#cvBars'), txtEl=$('#cvTexts');
+SDLC.forEach((s,i)=>{
+  const b=document.createElement('button'); b.className='stage'; b.type='button'; b.setAttribute('role','tab');
+  b.innerHTML='<span class="sn">'+String(i+1).padStart(2,'0')+'</span><span class="st">'+s.n+'</span><span class="sc">×'+s.cost+'</span>';
+  b.addEventListener('click',()=>sdlcSelect(i)); stagesEl.appendChild(b);
+  const x = 71.4 + i*142.8;
+  const h = 8 + Math.pow(s.cost/196,1.0)*150;
+  const r=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  r.setAttribute('x',x-30); r.setAttribute('y',180-h); r.setAttribute('width',60); r.setAttribute('height',h);
+  r.setAttribute('rx',5); r.setAttribute('class','cv-bar'); r.dataset.i=i; r.style.cursor='pointer';
+  r.addEventListener('click',()=>sdlcSelect(i)); barsEl.appendChild(r);
+  const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+  t.setAttribute('x',x); t.setAttribute('y',196); t.setAttribute('class','cv-t'); t.textContent=s.short; txtEl.appendChild(t);
+});
+const pts = SDLC.map((s,i)=>[71.4+i*142.8, 180-(8+Math.pow(s.cost/196,1.0)*150)]);
+$('#cvLine').setAttribute('d','M'+pts.map(p=>p.join(',')).join(' L'));
+function sdlcSelect(i){
+  const s=SDLC[i];
+  $$('#stages .stage').forEach((b,k)=>b.classList.toggle('on',k===i));
+  $$('.cv-bar').forEach((b,k)=>b.classList.toggle('on',k===i));
+  $('#dtGrid').innerHTML =
+    '<div><div class="dt-k">Готово на выходе</div><div class="dt-v">'+s.done+'</div></div>'+
+    '<div><div class="dt-k">Кто принимает</div><div class="dt-v">'+s.who+'</div></div>'+
+    '<div><div class="dt-k">Граница / стык</div><div class="dt-v">'+s.seam+'</div></div>'+
+    '<div><div class="dt-k">Кто отвечает за стык</div><div class="dt-v">'+s.seamWho+'</div></div>';
+  $('#dtCase').innerHTML='<strong>'+s.n+' · </strong>'+s.cs;
+}
+sdlcSelect(4);
+
+/* ---------- S5 ENVIRONMENT ---------- */
+const ENV={
+ startup:{l:'Стартап',must:['Agile / Scrum','Здравый смысл'],ok:['Kanban','PMBOK lite (риски + бюджет)'],no:['ГОСТ 34','PRINCE2 целиком','Устав на 40 страниц'],
+   n:'Здесь метод измеряется одной фразой: «мы узнали, что делаем не то, и сменили курс во вторник». Любой ритуал дороже этой скорости — лишний.'},
+ bank:{l:'Банк / финсектор',must:['Scrum внутри команды','PMBOK для бюджета','Регуляторная отчётность (waterfall)'],ok:['PRINCE2 для миграций и программ'],no:['Agile в контуре ЦБ и юротделов'],
+   n:'Модель Альфа-Банка: «продукт за 5 дней» при годовом бюджетировании. Agile живёт внутри команды, но не проникает в корпоративный контур — и это нормально.'},
+ gov:{l:'Госконтракт РФ',must:['ГОСТ 34.602 — ТЗ','ГОСТ 34.601 — стадии АС','Приёмочная комиссия'],ok:['ЕСПД 19.201-78 на программы','Водопад по стадиям'],no:['«Согласуем на лету»','MVP без ТЗ'],
+   n:'Без грамотного ТЗ по ГОСТ 34.602 проект просто не примут. Ты можешь быть гением Agile, но с ФНС или РЖД ты пишешь ТЗ по ГОСТу, и точка.'},
+ uk:{l:'Госсектор UK / EU',must:['PRINCE2 (часто обязателен)','Project Board','Business Case на каждом этапе'],ok:['PMBOK как справочник','Agile в delivery-командах'],no:['Решения «мимо» Board\u2019а'],
+   n:'Помни NHS: скелет есть, мяса нет. PRINCE2 даёт структуру, но не даёт здравый смысл — политика оказалась важнее методологии.'},
+ consult:{l:'Международный консалтинг',must:['PMBOK + tailoring','Stage gates','Risk register, который закрывают'],ok:['PRINCE2-дисциплина','SAFe / гибриды'],no:['Догматичный Scrum на 200 человек'],
+   n:'PMI Pulse 2025: организации, системно управляющие ограничениями, держат 73.8% результативности. Здесь за это платят клиенту деньгами, а не репутацией.'},
+ outsource:{l:'Аутсорс / агентство',must:['Фикс三角形的… то есть фикс-прайс: срок и стоимость зафиксированы','SLA на поддержку','Договорное «готово»'],ok:['Scrum на discovery','Канбан на поддержке'],no:['Бесплатные «мелкие правки»'],
+   n:'Когда срок и стоимость зафиксированы договором, двигаться может только качество и объём — через change request. Поддержку продавай отдельным контрактом: это операция, а не проект.'}
+};
+const envPick=$('#envPick'), envOut=$('#envOut');
+Object.entries(ENV).forEach(([k,v],i)=>{
+  const b=document.createElement('button'); b.className='pbtn'+(i===0?' on':''); b.textContent=v.l; b.dataset.k=k;
+  b.addEventListener('click',()=>{ $$('#envPick .pbtn').forEach(x=>x.classList.toggle('on',x===b)); envRender(k); });
+  envPick.appendChild(b);
+});
+function chips(arr,cls){ return arr.map(x=>'<span class="chip '+cls+'">'+x+'</span>').join(''); }
+function envRender(k){
+  const v=ENV[k];
+  envOut.innerHTML =
+   '<div class="envrow"><span class="ek must">Обязателен</span><span>'+chips(v.must,'g')+'</span></div>'+
+   '<div class="envrow"><span class="ek ok">Уместен</span><span>'+chips(v.ok,'a')+'</span></div>'+
+   '<div class="envrow"><span class="ek no">Бесполезен</span><span>'+chips(v.no,'r')+'</span></div>'+
+   '<p class="envnote">'+v.n+'</p>';
+}
+envRender('startup');
+
+/* ---------- S6 TALENT RADAR ---------- */
+const V=[[170,40],[290,250],[50,250]], C=[170,180];
+const tr=[$('#tr1'),$('#tr2'),$('#tr3')];
+function talUpdate(){
+  const vals=tr.map(r=>+r.value);
+  vals.forEach((v,i)=>{ $('#tv'+(i+1)).textContent=v; $('#rdV'+(i+1)).textContent=v; });
+  const p=vals.map((v,i)=>{ const k=v/10; return [C[0]+(V[i][0]-C[0])*k, C[1]+(V[i][1]-C[1])*k].join(','); });
+  $('#rdPoly').setAttribute('points',p.join(' '));
+  const min=Math.min(...vals), max=Math.max(...vals), names=['Ways of Working','Power Skills','Business Acumen'];
+  const box=$('#talVerdict'); box.className='verdict';
+  const wi=vals.indexOf(min);
+  if(min>=7 && max-min<=2){ box.innerHTML='<b>Равносторонний</b>Редкость. Твоя задача теперь — не баланс, а масштаб: качай все три вершины одновременно на более сложных проектах.'; return; }
+  if(max-min<=2){ box.classList.add('warn'); box.innerHTML='<b>Сбалансированно низко</b>Все три вершины около '+min+'. Начни с самой сильной — она даст быстрый выигрыш и подтянет остальные.'; return; }
+  const txt={
+    0:'<b>Дыра в технике.</b> Ты договариваешься и чувствуешь бизнес, но не владеешь инструментом: оценка, риски, ритм. Тебя будут спокойно обманывать сроками — и отвечать за это будешь ты.',
+    1:'<b>Дыра в людях.</b> Ты знаешь метод и понимаешь деньги, но не умеешь переводить технический язык на человеческий. Итог ровно как у техлида: «нет» вместо разговора — и вставший проект.',
+    2:'<b>Дыра в бизнесе.</b> Ты отличный исполнитель процесса, но не можешь объяснить, зачем проект приносит деньги и что будет, если его не делать. PMI Pulse 2025 называет business acumen критическим дифференциатором — ты в тех 25%.'
+  };
+  box.classList.add(min<=4?'bad':'warn');
+  box.innerHTML='<b>Слабая вершина: '+names[wi]+' ('+min+'/10)</b>'+txt[wi];
+}
+tr.forEach(r=>r.addEventListener('input',talUpdate)); talUpdate();
+
+/* ---------- S7 ROLES ---------- */
+const ROLES={
+ spotify:{t:'100 команд живут без менеджеров проектов',g:'Spotify · 2012 · модель Хенрика Книберга',
+  r:[{z:'ЧТО',n:'Product Owner',d:'Бэклог, приоритеты, ценность. Не лезет в «как».'},
+     {z:'КАК',n:'Squad',d:'6–12 человек, кросс-функциональный. Сам выбирает фреймворк: Scrum, Kanban, что угодно.'},
+     {z:'ЛЮДИ',n:'Chapter Lead',d:'Line manager одной профессии внутри tribe. Отвечает за рост людей, но не за их задачи.'},
+     {z:'МЕЖДУ',n:'Tribe Lead',d:'Координирует squad\u2019ы в одной области — например, «пользовательский опыт».'},
+     {z:'ЗНАНИЯ',n:'Guild',d:'Горизонтальное сообщество через всю компанию. Нулевой власти, чистый обмен.'}],
+  v:'Работает потому, что ответственность разведена: PO не лезет в «как», squad не лезет в «что», chapter lead не лезет в «когда». Копируют структуру, не культуру → «Zombie Spotify»: формы есть, сути нет, начальники решают за PO.'},
+ amazon:{t:'Two-pizza team и single-threaded leader',g:'Amazon · внутренний принцип → AWS $100+ млрд',
+  r:[{z:'РАЗМЕР',n:'Two-pizza team',d:'6–10 человек — чтобы накормить двумя пиццами. Не экономия на обеде, а борьба с социальной леностью.'},
+     {z:'ОДИН',n:'Single-threaded leader',d:'На 100% посвящён одному продукту и не имеет побочных проектов. Владеет им целиком: от бизнес-кейса до продакшена.'},
+     {z:'ПРИМЕР',n:'Энди Джесси / AWS',d:'Internal-инструмент стал бизнесом на $100+ млрд, потому что STL не отвлекался ни на что другое.'},
+     {z:'АНТИ-ПРИМЕР',n:'Классический тимлид',g:true,d:'Ведёт три проекта одновременно. Внимание размазано, владелец результата — никто.'}],
+  v:'Чем больше команда, тем меньше каждый вкладывает лично. Один продукт — один человек, который за него отвечает полностью. Всё остальное — иллюзия ответственности.'},
+ alfa:{t:'«Продукт за 5 дней» в годовом бюджете',g:'Альфа-Банк · 2017—2020 · agile-трансформация',
+  r:[{z:'ЧТО',n:'PO продуктовой команды',d:'Мобильный банк, карта, ипотека — у каждого своя команда с PO, аналитиками, разработкой и QA.'},
+     {z:'КАК',n:'Кросс-функциональная команда',d:'Двухнедельные спринты вместо годовых планов. Time-to-market сократился.'},
+     {z:'КОГДА',n:'Годовое бюджетирование',g:true,d:'Осталось waterfall. Итерации внутри — календарь снаружи.'},
+     {z:'РАМКИ',n:'ЦБ и юридический контур',g:true,d:'Отчётность и согласования не трансформировались вообще.'}],
+  v:'Роли можно внедрить, но если контур принятия решений (бюджет, регуляторика) остаётся старым, новые роли будут биться о потолок.'},
+ boeing:{t:'Кто был ответственным? Никто',g:'Boeing 737 MAX · MCAS · 346 погибших',
+  r:[{z:'ЧТО',n:'Product Owner MCAS',g:true,d:'Функции не было. Функцию добавили как «техническое улучшение» — без владельца, который спросил бы: «а нужно ли это пилотам?»'},
+     {z:'ОДИН ВЛАДЕЛЕЦ',n:'Single-threaded leader',g:true,d:'737 MAX вели несколько команд: аэродинамика, софт, сертификация, обучение. Ни одна не владела полным результатом.'},
+     {z:'ПОЛЬЗОВАТЕЛЬ',n:'Пилоты',g:true,d:'Их не обучили, не предупредили, не спросили. Это как выпустить продукт, не показав его пользователям.'},
+     {z:'КАК',n:'Инженеры Boeing',d:'Сильнейшая техника мира — и MCAS, полагающийся на один датчик угла атаки.'},
+     {z:'ПРИЁМКА',n:'FAA',d:'Ускоренная сертификация, потому что проект в фазе «срочно выводим на рынок».'}],
+  v:'Если ты не можешь назвать одного человека, который отвечает за результат — у тебя нет проекта. У тебя есть бюрократический процесс, и он тебя убьёт.'},
+ dropbox:{t:'Валидация гипотезы до строчки кода',g:'Dropbox · Дрю Хьюстон · 5 апреля 2007',
+  r:[{z:'ЧТО И ЗАЧЕМ',n:'Product Owner = основатель',d:'Решил, что проверять: спрос на облачный синтезатор файлов. И сделал это минимальными средствами.'},
+     {z:'РЫНОК',n:'Hacker News',d:'3-минутное видео → 75 000 регистраций за ночь. Продукта ещё не существовало.'},
+     {z:'РЕАЛИЗАЦИЯ',n:'Код, команда, ТЗ',g:true,d:'Не понадобились на этапе проверки гипотезы. Ни бэклога, ни спринтов, ни согласований.'}],
+  v:'PO — это не «человек, который расставляет задачи в Jira». PO — это человек, который отвечает на вопрос «что мы делаем и зачем». Иногда ответ — видео на три минуты.'}
+};
+const rolePick=$('#rolePick'), roleMap=$('#roleMap');
+Object.entries(ROLES).forEach(([k,v],i)=>{
+  const b=document.createElement('button'); b.className='pbtn'+(i===0?' on':''); b.dataset.k=k;
+  b.textContent = {spotify:'Spotify',amazon:'Amazon',alfa:'Альфа-Банк',boeing:'Boeing 737 MAX',dropbox:'Dropbox'}[k];
+  b.addEventListener('click',()=>{ $$('#rolePick .pbtn').forEach(x=>x.classList.toggle('on',x===b)); roleRender(k); });
+  rolePick.appendChild(b);
+});
+function roleRender(k){
+  const v=ROLES[k];
+  $('#roleTitle').textContent=v.t; $('#roleTag').textContent=v.g;
+  roleMap.innerHTML='';
+  v.r.forEach((r,i)=>{
+    const d=document.createElement('div'); d.className='rt rt-in'+(r.g?' ghost':'');
+    d.style.animationDelay=(i*70)+'ms';
+    d.innerHTML='<div class="z">'+r.z+(r.g?' · нет':'')+'</div><div class="n">'+r.n+'</div><div class="d">'+r.d+'</div>';
+    roleMap.appendChild(d);
+  });
+  $('#roleVerdict').textContent=v.v;
+}
+roleRender('spotify');
+$('#missBtn').addEventListener('click',()=>$('#missBox').classList.add('open'));
+
+/* ---------- ACCORDION / MINI-CHECK ---------- */
+const CHK=[
+ {q:'Отличить проект от операции по одному признаку и назвать свой текущий случай.',
+  a:'Один признак — <b>дата смерти</b>. Есть конец → проект. Повторяется без конца → операция. Продукт — то, что останется после обоих. Проверка: назови свой объект и скажи, в каком режиме ты в эту секунду.'},
+ {q:'Объяснить заказчику на пальцах, почему новая фича бесплатно не делается.',
+  a:'Не «нельзя», а: «Можно. Вот что мы двигаем — срок, бюджет или качество. Выбирайте». Если ты не можешь так ответить, ты обслуживаешь чужие хотелки, а не управляешь проектом.'},
+ {q:'Не спутать жизненный цикл проекта с жизненным циклом разработки (NHS-тест).',
+  a:'Ось A — <b>управление</b>: инициация → планирование → исполнение → мониторинг → закрытие. Ось B — <b>разработка</b>: waterfall → итерации → инкременты → agile → devops. На вопрос «какой у вас жизненный цикл?» всегда уточняй: управления или разработки.'},
+ {q:'Назвать 5 этапов SDLC и сказать, на каком дешевле всего ловить ошибки.',
+  a:'Планирование → требования → проектирование → разработка → тестирование (+ развёртывание, сопровождение). Дешевле всего — в <b>требованиях</b>: баг там стоит 1 день, на проде — неделю и репутацию. Ищи причину на стыках, а не симптом.'},
+ {q:'Сказать, зачем в стартапе PRINCE2, а в госконтракте — Agile.',
+  a:'<b>Незачем — и это и есть понимание.</b> В стартапе ГОСТ и тяжёлый PRINCE2 убьют скорость, в госконтракте без ТЗ по ГОСТ 34.602 проект не примут. В реальном большом проекте всегда гибрид: Scrum внутри команды, PMBOK для бюджета, ГОСТ для отчётности.'},
+ {q:'Определить, какая вершина Talent Triangle у тебя сейчас самая слабая (Boeing-тест).',
+  a:'Оцени 1—10 по Ways of Working / Power Skills / Business Acumen. Точка роста — <b>самая низкая</b>, не самая высокая. У технически сильных людей почти всегда провал в power skills и business acumen.'},
+ {q:'За минуту назвать, кто в твоём проекте PO, PM, спонсор и забытый стейкхолдер (Dropbox-тест).',
+  a:'Спонсор — деньги и право остановить. PO — что первым. PM — сроки и риски. Lead — люди. Забытый — тот, кто пострадает: <b>пилоты</b> в Boeing, <b>операторы ДЦ</b> в Knight Capital, <b>подрядчик по вентиляции</b> в Target, <b>врачи</b> в NHS.'}
+];
+const accList=$('#accList');
+const store = JSON.parse(localStorage.getItem('s0-check')||'{}');
+CHK.forEach((c,i)=>{
+  const w=document.createElement('div'); w.className='acc';
+  w.innerHTML='<button class="acc-h" type="button" aria-expanded="false"><span class="qn">'+String(i+1).padStart(2,'0')+
+   '</span><span class="qt">'+c.q+'</span><span class="grade"><button class="yes" type="button" data-g="1">смог</button><button class="no" type="button" data-g="0">не смог</button></span><span class="caret"></span></button>'+
+   '<div class="acc-b"><div class="in">'+c.a+'</div></div>';
+  const head=$('.acc-h',w);
+  head.addEventListener('click',e=>{
+    if(e.target.closest('.grade')) return;
+    const open=w.classList.toggle('open'); head.setAttribute('aria-expanded',open);
+  });
+  $$('.grade button',w).forEach(b=>b.addEventListener('click',ev=>{
+    ev.stopPropagation();
+    const val=b.dataset.g==='1';
+    w.dataset.done = val?'1':'';
+    $$('.grade button',w).forEach(x=>x.classList.remove('on'));
+    if(w.dataset.g===String(val)&&val){ w.dataset.g=''; }
+    else { w.dataset.g=String(val); b.classList.add('on'); }
+    if(!val) w.dataset.done='';
+    store[i]=w.dataset.g; saveCheck();
+  }));
+  if(store[i]!==undefined){
+    const btn=$('.grade button[data-g="'+store[i]+'"]',w); if(btn){btn.classList.add('on'); if(store[i]==='1')w.dataset.done='1'; w.dataset.g=store[i];}
+  }
+  accList.appendChild(w);
+});
+function saveCheck(){
+  const st={}; $$('#accList .acc').forEach((w,i)=>{ if(w.dataset.g!==undefined && w.dataset.g!=='') st[i]=w.dataset.g; });
+  localStorage.setItem('s0-check',JSON.stringify(st)); ring('chk', $$('#accList .acc[data-done="1"]').length, 7);
+}
+function ring(which,val,max){
+  const p=val/max, r=34, circ=2*Math.PI*r;
+  const el=$(which==='plan'?'#planRing':'#chkRing');
+  el.style.strokeDashoffset = circ*(1-p);
+  $(which==='plan'?'#planPct':'#chkPct').textContent = Math.round(p*100)+'%';
+  $(which==='plan'?'#planCnt':'#chkCnt').textContent = val+' / '+max;
+}
+
+/* ---------- HOMEWORK ---------- */
+const pStore = JSON.parse(localStorage.getItem('s0-plan')||'{}');
+$$('#planGrid input[type=checkbox]').forEach(cb=>{
+  if(pStore[cb.dataset.k]) cb.checked=true;
+  cb.addEventListener('change',()=>{
+    const s=JSON.parse(localStorage.getItem('s0-plan')||'{}');
+    s[cb.dataset.k]=cb.checked; localStorage.setItem('s0-plan',JSON.stringify(s));
+    ring('plan',$$('#planGrid input:checked').length,9); gate();
+  });
+});
+ring('plan',$$('#planGrid input:checked').length,9);
+ring('chk',$$('#accList .acc[data-done="1"]').length,7);
+
+/* ---------- GATE / FOOTER ---------- */
+const doneBtn=$('#doneBtn'), doneHint=$('#doneHint');
+function gate(){
+  const p=$$('#planGrid input:checked').length, c=$$('#accList .acc[data-done="1"]').length;
+  if(p===9 && c===7){
+    doneBtn.disabled=false; doneBtn.textContent='Открыть S1';
+    doneHint.textContent='';
+    doneBtn.onclick=()=>{ $('#s1lock').classList.add('open'); $('#s1ready').style.display='block'; doneBtn.style.display='none'; };
+    if(doneBtn.dataset.auto==='1') doneBtn.click();
+  } else {
+    doneBtn.disabled=true; doneBtn.textContent='S0 ещё не закрыт';
+    doneHint.textContent='Осталось: план '+p+'/9 · проверка '+c+'/7';
+  }
+}
+gate();
+
+/* ---------- CLOCK ---------- */
+const MON=['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+function tick(){ const d=new Date(); $('#clock').textContent = d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear()+' · '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); }
+tick(); setInterval(tick,30000);
+
+/* ---------- DOSSIER TILT ---------- */
+if(!RM && matchMedia('(pointer:fine)').matches){
+  $$('.dossier, .stack-card').forEach(card=>{
+    card.addEventListener('pointermove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform='perspective(1100px) rotateX('+(-y*2.2)+'deg) rotateY('+(x*2.2)+'deg) translateY(-3px)';
+    });
+    card.addEventListener('pointerleave',()=>{ card.style.transform=''; });
+  });
+}
+})();
+</script>
+</body>
+</html>
